@@ -14,5 +14,8 @@
     "express": "^4.15.3",
     "mysql": "^2.13.0",
     "orm": "^3.2.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.1.1"
   }
 }

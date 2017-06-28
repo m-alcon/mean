@@ -1,4 +1,5 @@
 const   orm = require("orm")
+        promisify = require("util").promisify
 
 const   quote = require("../models/quote")
         quoteSeeds = require("./seeds/quote.seed")
@@ -9,53 +10,79 @@ const   quote = require("../models/quote")
         category = require("../models/category")
         categorySeeds = require("./seeds/category.seed")
 
+
 class Database {
     
     constructor() {
         this.init()
     }
 
-    init() {
-        orm.connect(process.env.DB_CONNECTION_STRING, (error, db) => {
-            if (error) console.error(error)
-            else console.log("Connected successfully")
+    async init() {
+        try {
+            //Connecting to the database
+            this.db = await this._connect(process.env.DB_CONNECTION_STRING)
+            console.log("Database connected successfully")
 
-            this.db = db
-
+            //Defining DB models
             quote.define(this.db)
             user.define(this.db)
             movie.define(this.db)
             category.define(this.db)
 
-            this.db.drop(() => {
-                this.db.sync((err) => {
-                    if (err) console.error(error)
-                    else console.log("Models added successfully")
-                    
-                    this.db.models.quote.create(quoteSeeds, (err) => {
-                        if (err) console.error(error)
-                        else console.log("Quote seed added successfully")
-                    })
+             //Defining DB relations
+            quote.associate(this.db)
 
-                    this.db.models.user.create(userSeeds, (err) => {
-                        if (err) console.error(error)
-                        else console.log("User seed added successfully")
-                    })
+            if (process.env.ENV === 'development') {
+                 await this._drop()
+                console.log(" - Dropped successfully")
+            }
 
-                    this.db.models.movie.create(movieSeeds, (err) => {
-                        if (err) console.error(error)
-                        else console.log("Movie seed added successfully")
-                    })
+            await this._sync()
+            console.log(" - Models added successfully")
 
-                    this.db.models.category.create(categorySeeds, (err) => {
-                        if (err) console.error(error)
-                        else console.log("Category seed added successfully")
-                    })
-                })
+            if (process.env.ENV === 'development') {
+                Promise.all([
+                    this.crud("quote", "create", quoteSeeds),
+                    this.crud("user", "create", userSeeds),
+                    this.crud("movie", "create", movieSeeds),
+                    this.crud("category", "create", categorySeeds)
+                ]).then(() => console.log(" - Models seeded successfully"))
+            }
+            
+        } catch (error) {
+            return console.error(error)
+        }
+    }
+
+    _drop () {
+        return new Promise((resolve, reject) => {
+            this.db.drop(error => {
+                if (error) reject(error)
+                else resolve()
             })
         })
+    }
+
+    _sync () {
+        return new Promise((resolve, reject) => {
+            this.db.sync(error => {
+                if (error) reject(error)
+                else resolve()
+            })
+        })
+    }
+
+    _connect (connectionString) {
+        let connect = promisify(orm.connect)
+        return connect(connectionString)
 
     }
+
+    crud (model, func, object={}) {
+        let create = promisify(this.db.models[model][func])
+        return create(object)
+    }
+        
 }
 
 module.exports = new Database();

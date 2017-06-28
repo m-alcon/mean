@@ -19,6 +19,11 @@ class Quote {
             }
         })
     }
+
+    associate(db) {
+        let {quote,category} = db.models
+        quote.hasOne("category", category)
+    }
 }
 
 module.exports = new Quote()

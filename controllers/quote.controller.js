@@ -1,53 +1,56 @@
 const   database = require("../database/database")
 
 class QuoteController {
-    getAll (request, response, next) {
-        database.db.models.quote.find({}, (err,quotes) => {
-            if (err) response.status(500).json(err)
-            else response.json(quotes)
-        })
+    async getAll (request, response, next) {
+        try {
+            response.json(await database.crud("quote", "find"))
+        } catch (error) {
+            response.status(500).json(error)
+        }
     }
 
-    getSingle (request, response, next) {
+    async getSingle (request, response, next) {
         let {id} = request.params
-        database.db.models.quote.get(id, (err,quote) => {
-            if (err) response.status(404).json(err)
-            else response.json(quote)
-        })
+        try {
+            response.json(await database.crud("quote", "get", id))
+        } catch (error) {
+            response.status(404).json(error)
+        }
     }
 
-    create (request, response, next) {
+    async create (request, response, next) {
         let userQuote = request.body
-        database.db.models.quote.create(userQuote, (err,quote) => {
-            if (err) response.status(500).json(err)
-            else response.json(quote)
-        })
+        try {
+            response.json(database.crud("quote", "create", userQuote))
+        } catch (error) {
+            response.status(500).json(error)
+        }
     }
     
-    update (request, response, next) {
+    async update (request, response, next) {
         let {id} = request.params,
             userQuote = request.body
-        database.db.models.quote.get(id, (err,quote) => {
-            if (err) response.status(404).json(err)
-            else {
-                quote.save(userQuote,(err,savedQuote) => {
-                    if (err) response.status(500).json(err)
-                    else response.json(savedQuote)
-                })
-            }
+        try {
+            var quote = await database.crud("quote", "get", id)
+        } catch (error) {
+            response.status(404).json(error)
+        }
+        quote.save(userQuote,(error, savedQuote) => {
+            if (error) response.status(500).json(error)
+            else response.json(savedQuote)
         })
     }
 
-    remove (request, response, next) {
+    async remove (request, response, next) {
         let {id} = request.params
-        database.db.models.quote.get(id, (err,quote) => {
-            if (err) response.status(404).json(err)
-            else {
-                quote.remove((err,deletedQuote) => {
-                    if (err) response.status(500).json(err)
-                    else response.json(deletedQuote)
-                })
-            }
+        try {
+            var quote = database.crud("quote", "get", id)
+        } catch (error) {
+            response.status(404).json(error)
+        }
+        quote.remove((err,deletedQuote) => {
+            if (err) response.status(500).json(err)
+            else response.json(deletedQuote)
         })
     }
 }
