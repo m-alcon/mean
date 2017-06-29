@@ -1,5 +1,11 @@
+const   bcrypt = require ("bcrypt-nodejs")
+
 class User {
     define (db) {
+        db.defineType("password", {
+            datastoreType: () => 'TEXT',
+            propertyToValue: value => bcrypt.hashSync(value)
+        })
         db.define("user", {
             email: {
                 type: "text",
@@ -7,16 +13,12 @@ class User {
                 unique: true
             },
             password: {
-                type: "text",
+                type: "password",
                 required: true
             },
-            name: {
+            username: {
                 type: "text",
-                required: false
-            },
-            surname: {
-                type: "text",
-                required: false
+                required: true
             }
         })
     }

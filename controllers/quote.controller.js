@@ -1,29 +1,44 @@
-const   database = require("../database/database")
+const   database = require ("../database/database"),
+        httpResponse = require ("../utils/http-response")
 
 class QuoteController {
     async getAll (request, response, next) {
+        let categoryId = request.query.categoryid,
+            characterId = request.query.characterId,
+            where = {}
+        if (categoryId) where.category_id = categoryId
+        if (characterId) where.character_id = characterId        
         try {
-            response.json(await database.crud("quote", "find"))
+            let quotes = response.json(await 
+                database.crud("quote", "find", where))
+            if (!quotes.length)
+                httpResponse.notFound(response)
+            else  httpResponse.ok(response, quotes)
         } catch (error) {
-            response.status(500).json(error)
+            httpResponse.error(response, error)
         }
     }
 
     async getSingle (request, response, next) {
         let {id} = request.params
         try {
-            response.json(await database.crud("quote", "get", id))
+            let quote = await database.crud("quote", "get", id)
+            if (!quote) httpResponse.notFound(response)
+            else httpResponse.ok(response, quote)
         } catch (error) {
-            response.status(404).json(error)
+            httpResponse.error(response, error)
         }
     }
 
     async create (request, response, next) {
         let userQuote = request.body
         try {
-            response.json(database.crud("quote", "create", userQuote))
+            httpResponse.ok(response, 
+                await database.crud("quote", "create", userQuote))
         } catch (error) {
-            response.status(500).json(error)
+            if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") 
+                httpResponse.badRequest(response, error)
+            else httpResponse.error(response, error)
         }
     }
     
@@ -36,8 +51,12 @@ class QuoteController {
             response.status(404).json(error)
         }
         quote.save(userQuote,(error, savedQuote) => {
-            if (error) response.status(500).json(error)
-            else response.json(savedQuote)
+            if (error) {
+                if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") 
+                    httpResponse.badRequest(response, error)
+                else httpResponse.error(response, error)
+            }
+            else httpResponse.ok(response, savedQuote)
         })
     }
 
@@ -46,7 +65,9 @@ class QuoteController {
         try {
             var quote = database.crud("quote", "get", id)
         } catch (error) {
-            response.status(404).json(error)
+            if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") 
+                httpResponse.badRequest(response, error)
+            else httpResponse.error(response, error)
         }
         quote.remove((err,deletedQuote) => {
             if (err) response.status(500).json(err)

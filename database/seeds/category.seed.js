@@ -1,5 +1,20 @@
 const categories = [
     {
+        name: "Space Opera",
+        description: "Science fiction is a genre of speculative fiction," +
+        " typically dealing with imaginative concepts such as " +
+        "futuristic science and technology, space travel, " +
+        "time travel, faster than light travel, parallel universes,"+
+        " and extraterrestrial life."
+    },
+    {
+        name: "Fantasy",
+        description: "Fantasy is a fiction genre set in an imaginary universe,"+
+        " often but not always without any locations, events, or people from" +
+        " the real world. Its roots are in oral traditions, which then "+
+        "developed into literature and drama. "
+    },
+    {
         name: "Action",
         description: "Action film is a film genre in which the protagonist or" +
         " protagonists end up in a series of challenges that typically include"+

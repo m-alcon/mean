@@ -3,6 +3,7 @@ const   express = require("express")
 const   quoteController = require("./controllers/quote.controller")
         movieController = require("./controllers/movie.controller")
         categoryController = require("./controllers/category.controller")
+        authController = require("./controllers/auth.controller")
 
 class Router {
     
@@ -12,10 +13,16 @@ class Router {
     }
 
     addRoutes() {
+        /*
+            AUTH
+        */
+        this.router.post("/login", authController.login)
+        this.router.post("/signup", authController.signup)
+
         this.router.route("/quotes/:id")
             .get(quoteController.getSingle)
             .put((request,response) => response.json("Put"))
-            .post(quoteController.update)
+            .post(authController.authenticate, quoteController.update)
             .delete(quoteController.remove)
 
         this.router.route("/quotes")
@@ -37,7 +44,7 @@ class Router {
             .delete((request,response) => response.json("Delete")) 
 
         this.router.route("/categories/:id")
-            .get(categoryController.getSingle)
+            .get(authController.authenticate, categoryController.getSingle)
             .put((request,response) => response.json("Put"))
             .post(categoryController.update)
             .delete(categoryController.remove)

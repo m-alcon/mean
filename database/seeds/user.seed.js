@@ -1,13 +1,13 @@
 const users = [
     {
         email: "miguel.alcon@est.fib.upc.edu",
-        password: "root",
-        name: "Miquel",
-        surname: "Alcón"
+        password: process.env.PWD_SUPERUSER,
+        username: "miquelalcon"
     },
     {
         email: "guest@quotes.guest",
         password: "guest",
+        username: "guest"
     }
 ]
 
