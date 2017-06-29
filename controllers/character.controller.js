@@ -1,9 +1,9 @@
 const   database = require("../database/database")
 
-class MovieController {
+class CharacterController {
     async getAll (request, response, next) {
         try {
-            response.json(await database.crud("movie", "find"))
+            response.json(await database.crud("character", "find"))
         } catch (error) {
             response.json(error)
         }
@@ -12,16 +12,16 @@ class MovieController {
     async getSingle (request, response, next) {
         let {id} = request.params
         try {
-            response.json(await database.crud("movie", "get", id))
+            response.json(await database.crud("character", "get", id))
         } catch (error) {
             response.status(404).json(error)
         }
     }
 
     async create (request, response, next) {
-        let userMovie = request.body
+        let userCharacter = request.body
         try {
-            response.json(await database.crud("movie", "create", userMovie))
+            response.json(await database.crud("character", "create", userCharacter))
         } catch (error) {
             response.status(500).json(error)
         }
@@ -29,13 +29,13 @@ class MovieController {
     
     async update (request, response, next) {
         let {id} = request.params,
-            userMovie = request.body
+            userCharacter = request.body
         try {
-            var movie = await database.crud("movie", "get", id)
+            var character = await database.crud("character", "get", id)
         } catch (error) {
             response.status(404).json(error)
         }
-        movie.save(userMovie,(error,savedMovie) => {
+        character.save(userCharacter,(error,savedMovie) => {
             if (error) response.status(500).json(error)
             else response.json(savedMovie)
         })
@@ -44,15 +44,15 @@ class MovieController {
     async remove (request, response, next) {
         let {id} = request.params
         try {
-            var movie = await database.crud("movie", "get", id)
+            var character = await database.crud("character", "get", id)
         } catch (error) {
             response.status(404).json(error)
         }
-        movie.remove((error,deletedMovie) => {
+        character.remove((error,deletedMovie) => {
             if (error) response.status(500).json(error)
             else response.json(deletedMovie)
         })
     }
 }
 
-module.exports = new MovieController()
+module.exports = new CharacterController()

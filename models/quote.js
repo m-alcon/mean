@@ -4,25 +4,16 @@ class Quote {
             text: {
                 type: "text",
                 required: true
-            },
-            character: {
-                type: "text",
-                required: true
-            },
-            movie: {
-                type: "text",
-                required: true
-            },
-            year: {
-                type: "integer",
-                required: true
             }
         })
     }
 
-    associate(db) {
+    associate (db) {
         let {quote,category} = db.models
         quote.hasOne("category", category)
+
+        let {character} = db.models
+        quote.hasOne("character", character)
     }
 }
 

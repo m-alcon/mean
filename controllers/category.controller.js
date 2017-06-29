@@ -1,53 +1,56 @@
 const   database = require("../database/database")
 
 class CategoryController {
-    getAll (request, response, next) {
-        database.db.models.category.find({}, (err,categories) => {
-            if (err) response.status(500).json(err)
-            else response.json(categories)
-        })
+    async getAll (request, response, next) {
+        try {
+            response.json(await database.crud("category", "find"))
+        } catch (error) {
+            response.json(error)
+        }
     }
 
-    getSingle (request, response, next) {
+    async getSingle (request, response, next) {
         let {id} = request.params
-        database.db.models.category.get(id, (err,category) => {
-            if (err) response.status(404).json(err)
-            else response.json(category)
-        })
+        try {
+            response.json(await database.crud("category", "get", id))
+        } catch (error) {
+            response.status(404).json(error)
+        }
     }
 
-    create (request, response, next) {
+    async create (request, response, next) {
         let userCategory = request.body
-        database.db.models.category.create(userCategory, (err,category) => {
-            if (err) response.status(500).json(err)
-            else response.json(category)
-        })
+        try {
+            response.json(await database.crud("category", "create", userCategory))
+        } catch (error) {
+            response.status(500).json(error)
+        }
     }
     
-    update (request, response, next) {
+    async update (request, response, next) {
         let {id} = request.params,
             userCategory = request.body
-        database.db.models.category.get(id, (err,category) => {
-            if (err) response.status(404).json(err)
-            else {
-                category.save(userCategory,(err,savedCategory) => {
-                    if (err) response.status(500).json(err)
-                    else response.json(savedCategory)
-                })
-            }
+        try {
+            var category = await database.crud("category", "get", id)
+        } catch (error) {
+            response.status(404).json(error)
+        }
+        category.save(userCategory,(error,savedMovie) => {
+            if (error) response.status(500).json(error)
+            else response.json(savedMovie)
         })
     }
 
-    remove (request, response, next) {
+    async remove (request, response, next) {
         let {id} = request.params
-        database.db.models.category.get(id, (err,category) => {
-            if (err) response.status(404).json(err)
-            else {
-                category.remove((err,deletedCategory) => {
-                    if (err) response.status(500).json(err)
-                    else response.json(deletedCategory)
-                })
-            }
+        try {
+            var category = await database.crud("category", "get", id)
+        } catch (error) {
+            response.status(404).json(error)
+        }
+        category.remove((error,deletedMovie) => {
+            if (error) response.status(500).json(error)
+            else response.json(deletedMovie)
         })
     }
 }

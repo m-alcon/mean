@@ -9,6 +9,8 @@ const   quote = require("../models/quote")
         movieSeeds = require("./seeds/movie.seed")
         category = require("../models/category")
         categorySeeds = require("./seeds/category.seed")
+        character = require("../models/character")
+        characterSeeds = require("./seeds/character.seed")
 
 
 class Database {
@@ -28,9 +30,11 @@ class Database {
             user.define(this.db)
             movie.define(this.db)
             category.define(this.db)
+            character.define(this.db)
 
              //Defining DB relations
             quote.associate(this.db)
+            character.associate(this.db)
 
             if (process.env.ENV === 'development') {
                  await this._drop()
@@ -41,13 +45,15 @@ class Database {
             console.log(" - Models added successfully")
 
             if (process.env.ENV === 'development') {
+                await this.crud("category", "create", categorySeeds)
+                await this.crud("character", "create", characterSeeds)
                 Promise.all([
                     this.crud("quote", "create", quoteSeeds),
                     this.crud("user", "create", userSeeds),
-                    this.crud("movie", "create", movieSeeds),
-                    this.crud("category", "create", categorySeeds)
+                    this.crud("movie", "create", movieSeeds)
                 ]).then(() => console.log(" - Models seeded successfully"))
             }
+
             
         } catch (error) {
             return console.error(error)
