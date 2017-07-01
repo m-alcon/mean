@@ -9,8 +9,7 @@ class QuoteController {
         if (categoryId) where.category_id = categoryId
         if (characterId) where.character_id = characterId        
         try {
-            let quotes = response.json(await 
-                database.crud("quote", "find", where))
+            let quotes = await database.crud("quote", "find", where)
             if (!quotes.length)
                 httpResponse.notFound(response)
             else  httpResponse.ok(response, quotes)

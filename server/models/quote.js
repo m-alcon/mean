@@ -10,10 +10,10 @@ class Quote {
 
     associate (db) {
         let {quote,category} = db.models
-        quote.hasOne("category", category, {autofetch: true, reverse: "quote"})
+        quote.hasOne("category", category, {autoFetch: true, reverse: "quote"})
 
         let {character} = db.models
-        quote.hasOne("character", character, {autofetch: true, reverse: "quote"})
+        quote.hasOne("character", character, {autoFetch: true, reverse: "quote"})
     }
 }
 

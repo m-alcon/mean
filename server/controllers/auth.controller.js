@@ -18,16 +18,12 @@ class AuthController {
 
         let {email, password} = request.body
         try {
-            let users = await database.crud("user","find", {email})
-
-            if (users.length) {
-                let user = users[0]
-                if (bcrypt.compareSync(password, user.password)) {
-                    httpResponse.ok(response, {token: _generateToken(user.email)})
-                }
-                else return httpResponse.unauthorized(response)
+            let users = await database.crud("user","find", {email}),
+                user = users[0]
+            if (!users.length || !bcrypt.compareSync(password, user.password)) {
+                return httpResponse.unauthorized(response)
             }
-            else httpResponse.unauthorized(response)
+            else return httpResponse.unauthorized(response)
         } catch (error) {
             httpResponse.error(response, error)
         }
@@ -55,8 +51,8 @@ class AuthController {
         if (token) {
             let verify = await promisify(jwt.verify)
             try {
-                let decoded = await verify(token, process.env.SERVER_PRIVATE_KEY)
-                let users = await database.crud("user","find", {email: decoded.email})
+                let decoded = await verify(token, process.env.SERVER_PRIVATE_KEY),
+                    users = await database.crud("user","find", {email: decoded.email})
                 if (users.length){
                     request.loggedUser = users[0]
                     next()

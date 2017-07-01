@@ -1,0 +1,44 @@
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: black;
+    color: white;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+
+.quote {
+    margin: 0;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Verdana;
+    text-align: justify;
+    opacity: 0.2;
+
+}
+
+.quote > ul {
+    list-style: none;
+    padding: 30px;
+}
+
+li {
+    color: white;
+    font-size: 24px;
+    line-height: 40px;
+}
+
+li + li {
+    text-align: right;
+    color: grey;
+    margin-top: 6px; 
+    font-size: 16px;
+}
