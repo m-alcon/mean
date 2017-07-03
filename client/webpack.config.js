@@ -69,14 +69,10 @@ module.exports = function (env) {
                 },
             ]
         },
-    //     devServer: {
-    //        proxy: {
-    //             "/api": "http://localhost:3000",
-    //             "/images": "http://localhost:3000",
-    //             "/auth": "http://localhost:3000",
-    //             "/img": "http://localhost:3000",
-    //             "/uploads": "http://localhost:3000"
-    //        }
-    //    }
+        devServer: {
+           proxy: {
+                "/api": "http://localhost:4321",
+           }
+       }
     }
 }
