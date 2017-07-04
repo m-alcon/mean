@@ -12,21 +12,36 @@ export class QuotesApiService {
      constructor (private http: Http) {}
      // private instance variable to hold base url
 
-     private get(url: string) : Promise<any> {
+    private get(url: string) : Promise<any> {
         return this.http.get("/api/" + url)
             .toPromise()
-            .then(response => {
-                return response.json()
-            })
-            .catch(error => console.error(error))
+            .then(response => response.json())
+    }
+
+    private post(url: string, body:any) : Promise<any> {
+        return this.http.post("/api/" + url, body)
+            .toPromise()
+            .then(response => response.json())
     }
 
     getQuotes() : Promise<any> {
         return this.get("quotes")
     }
 
+    getQuote(id:string) : Promise<any> {
+        return this.get("quotes/" + id)
+    }
+
     getCategories() : Promise<any> {
         return this.get("categories")
+    }
+
+    getCategory(id:string) : Promise<any> {
+        return this.get("categories/" + id)
+    }
+
+    postQuote(quote:Quote) {
+        this.post("quotes",quote)
     }
 
 }

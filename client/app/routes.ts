@@ -1,11 +1,16 @@
 import { Routes } from "@angular/router"
-import { CategoryListComponent } from "./category-list.component"
-import { CategoryDetailComponent } from "./category-detail.component"
-import { NotFoundComponent } from "./not-found.component"
+import { CategoryListComponent } from "./category-list/category-list.component"
+import { CategoryDetailComponent } from "./category-detail/category-detail.component"
+import { NotFoundComponent } from "./errors/not-found.component"
+import { QuoteListComponent } from "./quote-list/quote-list.component";
+import { QuoteDetailComponent } from "./quote-detail/quote-detail.component";
 
 
 export const appRoutes: Routes = [
-    { path: "", component: CategoryListComponent },
+    { path: "", component: QuoteListComponent },
+    { path: "quote/:id", component: QuoteDetailComponent },
+    { path: "category", component: CategoryListComponent },
     { path: "category/:id", component: CategoryDetailComponent},
-    { path: "**", component: NotFoundComponent }
+    { path: "404", component: NotFoundComponent },
+    { path: "**", redirectTo: "404" }
 ]

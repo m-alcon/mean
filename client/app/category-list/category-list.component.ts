@@ -1,14 +1,14 @@
 import { Component, OnInit } from "@angular/core";
-import { QuotesApiService } from "../services/quote.api.service";
-import { Category } from "../models/category"
+import { QuotesApiService } from "../../services/quote.api.service";
+import { Category } from "../../models/category"
 
 @Component({
     selector: "category-list",
     template: `
-        <ul>
+        <ul class="spaced-list selectable-list">
             <li 
                 *ngFor="let category of categories"
-                routerLink="/category/id">
+                routerLink="/category/{{category.id}}">
                 {{ category.name }}
             </li>
             <div *ngIf="description">{{ description }}</div>
