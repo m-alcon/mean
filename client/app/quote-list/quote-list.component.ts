@@ -1,28 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Quote } from "../../models/quote";
 import { QuotesApiService } from "../../services/quote.api.service";
+import { QuoteFormComponent } from "./quote-form.component";
 
 @Component({
     selector: 'quote-list',
     template: `
-        <ul class="spaced-list selectable-list">
-            <li 
-                *ngFor="let quote of quotes"
-                routerLink="quote/{{quote.id}}">{{quote.text}}</li>
-        </ul>
-        <quote-form *ngIf="showPopUp"></quote-form>
-        <button (click)="onShowPopUp()">Add</button>
+        <div class="flex-container-column">
+            <h1 class="text-center flex-item">Quotes list</h1>
+            <button class="add-button flex-item" (click)="onShowForm()">+ Add Quote</button>
+            <div class="flex-item-quote"
+                *ngFor="let quote of quotes">
+                <h2 class="quote-text">"{{quote.text}}"</h2>
+                <p class="quote-character">{{quote.character?.name}}</p>
+            </div>
+            
+        </div>
+        <quote-form 
+            #quoteForm
+            (onSubmitted)="onNewQuoteAdded()"
+        >
+        </quote-form>
     `
 })
 
 export class QuoteListComponent implements OnInit {
     quotes: Quote[]
-    showPopUp: boolean
+    @ViewChild (QuoteFormComponent)
+    quoteForm: QuoteFormComponent
 
     constructor(private api: QuotesApiService) { }
 
     async ngOnInit() { 
-        this.showPopUp = false
         try {
             this.quotes = await this.api.getQuotes()
         } catch (error) {
@@ -30,7 +39,12 @@ export class QuoteListComponent implements OnInit {
         }
     }
 
-    onShowPopUp() {
-        this.showPopUp = true;
+    onShowForm() {
+        this.quoteForm.open()
+    }
+
+    onNewQuoteAdded(quote: Quote) {
+        this.quotes.push(quote)
+        this.quoteForm.close()
     }
 }

@@ -3,6 +3,7 @@ const   express = require("express")
 const   quoteController = require("./controllers/quote.controller")
         movieController = require("./controllers/movie.controller")
         categoryController = require("./controllers/category.controller")
+        characterController = require("./controllers/character.controller")
         authController = require("./controllers/auth.controller")
 
 class Router {
@@ -53,6 +54,18 @@ class Router {
             .get(/*authController.authenticate, */categoryController.getAll)
             .put(/*authController.authenticate, */(request,response) => response.json("Put"))
             .post(/*authController.authenticate, */categoryController.create)
+            .delete(/*authController.authenticate, */(request,response) => response.json("Delete")) 
+
+        this.router.route("/characters/:id")
+        .get(/*authController.authenticate, */characterController.getSingle)
+        .put(/*authController.authenticate, */(request,response) => response.json("Put"))
+        .post(/*authController.authenticate, */characterController.update)
+        .delete(/*authController.authenticate, */characterController.remove)
+
+        this.router.route("/characters")
+            .get(/*authController.authenticate, */characterController.getAll)
+            .put(/*authController.authenticate, */(request,response) => response.json("Put"))
+            .post(/*authController.authenticate, */characterController.create)
             .delete(/*authController.authenticate, */(request,response) => response.json("Delete"))        
     }
 }

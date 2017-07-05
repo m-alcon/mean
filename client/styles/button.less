@@ -1,0 +1,46 @@
+.button {
+    font-size: @mediumFontSize;
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px 5px 15px;
+}
+
+.button.invalid {
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.button:focus {
+    outline: none;
+    box-shadow: 0px 0px 15px @selectColor;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.add-button {
+    .button;
+    width: 130px;
+}
+
+.close-button {
+    background:none;
+    border: none;
+    font-size: @mediumFontSize;
+    color: @mainColor;
+    padding: 5px 10px 5px 10px !important;
+    float: right;
+    transform: translateX(30px) translateY(-30px);
+}
+
+.close-button:hover {
+    color: @selectColor;
+    cursor: pointer;
+}
+
+.close-button:focus {
+    outline: none;
+    color: @selectColor;
+}

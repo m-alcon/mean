@@ -40,6 +40,14 @@ export class QuotesApiService {
         return this.get("categories/" + id)
     }
 
+    getCharacters() : Promise<any> {
+        return this.get("characters")
+    }
+
+    getCharacter(id:string) : Promise<any> {
+        return this.get("characters/" + id)
+    }
+
     postQuote(quote:Quote) {
         this.post("quotes",quote)
     }
