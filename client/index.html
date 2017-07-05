@@ -17,22 +17,36 @@
                 background-color: black;
                 margin: 0;
                 display: flex;
-                justify-content: center;
-                align-items: center;
                 height: 100%;
             }
             main-app {
                 font-family: Verdana;
                 display: flex;
                 justify-content: center;
-                align-items: center;
+                margin: auto;
             }
             li {
                 list-style-type: none;
             }
+
+            div.full-page-loader > i.material-icons {
+                font-size: 50px;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                from {transform:rotate(0deg);}
+                to {transform:rotate(360deg);}
+            }
         </style>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet">
     </head>
     <body>
-        <main-app>Cargando...</main-app>
+        <main-app>
+            <div class="full-page-loader">
+                <i class="material-icons">loop</i><br>
+            </div>
+        </main-app>
     </body>
 </html>

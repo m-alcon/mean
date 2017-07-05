@@ -1,28 +1,43 @@
 .button {
     font-size: @mediumFontSize;
     background-color: white;
+    color: black;
     border: none;
     border-radius: 20px;
     padding: 5px 15px 5px 15px;
-}
+    transition: border-radius 0.5s;
 
-.button.invalid {
-    opacity: 0.3;
-    cursor: pointer;
-}
+    &:focus {
+        outline: none;
+        box-shadow: 0px 0px 15px @selectColor;
+    }
 
-.button:focus {
-    outline: none;
-    box-shadow: 0px 0px 15px @selectColor;
-}
+    &:hover{
+        cursor: pointer;
+        border-radius: 0; 
+    }
 
-.button:hover {
-    cursor: pointer;
+    &.inactive{
+        opacity: 0.3;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
 }
 
 .add-button {
     .button;
     width: 130px;
+}
+
+.edit-button {
+    .button;
+    width: 30px;
+    height: 20px;
+    padding: 5px;
+    text-align: center;
+    line-height: 20px;
+    vertical-align: center;
+    margin: auto 0;
 }
 
 .close-button {

@@ -71,7 +71,7 @@ import { Character } from "../../models/character";
                         class="button" 
                         type="submit" 
                         value="Submit"
-                        [class.active]="quoteForm.form.invalid">
+                        [class.inactive]="quoteForm.form.invalid">
                 </div>
             </form>
         </div>
@@ -107,9 +107,18 @@ export class QuoteFormComponent implements OnInit {
         
     }
 
-    onSubmit () {
-        this.api.postQuote(this.quote)
-        this.onSubmitted.emit(this.quote);
+    async onSubmit () {
+        this.quote.character = this.characters[this.quote.character_id - 1]
+        this.quote.category = this.categories[this.quote.category_id - 1]
+        console.log(this.quote.text)
+        try {
+            await this.api.postQuote(this.quote)
+            console.log(this.quote)
+            this.onSubmitted.emit(this.quote);
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
     close () {
@@ -119,5 +128,12 @@ export class QuoteFormComponent implements OnInit {
     open () {
         this.isActive = true;
         this.ngOnInit()
+    }
+
+    openAndEdit (quote: Quote) {
+        this.isActive = true;
+        console.log(quote)
+        this.ngOnInit()
+        this.quote = quote;
     }
 }

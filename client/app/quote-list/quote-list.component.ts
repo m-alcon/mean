@@ -8,17 +8,25 @@ import { QuoteFormComponent } from "./quote-form.component";
     template: `
         <div class="flex-container-column">
             <h1 class="text-center flex-item">Quotes list</h1>
-            <button class="add-button flex-item" (click)="onShowForm()">+ Add Quote</button>
+            <button class="add-button flex-item" (click)="onAddQuote()">+ Add Quote</button>
             <div class="flex-item-quote"
                 *ngFor="let quote of quotes">
                 <h2 class="quote-text">"{{quote.text}}"</h2>
-                <p class="quote-character">{{quote.character?.name}}</p>
+                <div class="quote-footer">
+                    <i 
+                        class="material-icons edit-button"
+                        (click)="onEditQuote(quote.id)"
+                    >
+                        mode_edit
+                    </i>
+                    <p class="quote-character">{{quote.character?.name}}</p>
+                </div>
             </div>
             
         </div>
         <quote-form 
             #quoteForm
-            (onSubmitted)="onNewQuoteAdded()"
+            (onSubmitted)="onNewQuoteAdded($event)"
         >
         </quote-form>
     `
@@ -26,6 +34,7 @@ import { QuoteFormComponent } from "./quote-form.component";
 
 export class QuoteListComponent implements OnInit {
     quotes: Quote[]
+
     @ViewChild (QuoteFormComponent)
     quoteForm: QuoteFormComponent
 
@@ -39,11 +48,16 @@ export class QuoteListComponent implements OnInit {
         }
     }
 
-    onShowForm() {
+    onAddQuote() {
         this.quoteForm.open()
     }
 
+    onEditQuote(id: number) {
+        this.quoteForm.openAndEdit(this.quotes[id - 1])
+    }
+
     onNewQuoteAdded(quote: Quote) {
+        console.log(quote)
         this.quotes.push(quote)
         this.quoteForm.close()
     }
