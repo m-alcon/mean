@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Quote } from "../../models/quote";
 import { QuotesApiService } from "../../services/quote.api.service";
 import { QuoteFormComponent } from "./quote-form.component";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
     selector: 'quote-list',
@@ -27,6 +28,7 @@ import { QuoteFormComponent } from "./quote-form.component";
         <quote-form 
             #quoteForm
             (onSubmitted)="onNewQuoteAdded($event)"
+            (onUpdated)="onQuoteUpdated($event)"
         >
         </quote-form>
     `
@@ -38,9 +40,13 @@ export class QuoteListComponent implements OnInit {
     @ViewChild (QuoteFormComponent)
     quoteForm: QuoteFormComponent
 
-    constructor(private api: QuotesApiService) { }
+    constructor(
+        private api: QuotesApiService,
+        private auth: AuthService
+    ) { }
 
     async ngOnInit() { 
+        console.log(this.auth.isAuthorized())
         try {
             this.quotes = await this.api.getQuotes()
         } catch (error) {
@@ -53,12 +59,17 @@ export class QuoteListComponent implements OnInit {
     }
 
     onEditQuote(id: number) {
-        this.quoteForm.openAndEdit(this.quotes[id - 1])
+        this.quoteForm.open(this.quotes[id - 1])
     }
 
     onNewQuoteAdded(quote: Quote) {
-        console.log(quote)
         this.quotes.push(quote)
+        this.quoteForm.close()
+    }
+
+    onQuoteUpdated(quote: Quote) {
+        let i = this.quotes.findIndex(q => q.id == quote.id)
+        this.quotes[i] = quote
         this.quoteForm.close()
     }
 }

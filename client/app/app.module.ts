@@ -9,12 +9,14 @@ import { QuotesApiService } from "../services/quote.api.service";
 import { RandomQuoteComponent } from "./random-quote.component";
 import { CategoryListComponent } from "./category-list/category-list.component";
 import { CategoryDetailComponent } from "./category-detail/category-detail.component";
+import { LoginComponent } from "./login/login.component";
 import { NotFoundComponent } from "./errors/not-found.component"
 
 import { QuoteListComponent } from "./quote-list/quote-list.component";
 import { QuoteDetailComponent } from "./quote-detail/quote-detail.component";
 import { NavBarComponent } from "./nav-bar/nav-bar.component";
 import { QuoteFormComponent } from "./quote-list/quote-form.component";
+import { AuthService } from "../services/auth.service";
 
 @NgModule({
     imports: [
@@ -32,10 +34,12 @@ import { QuoteFormComponent } from "./quote-list/quote-form.component";
         QuoteDetailComponent,
         QuoteFormComponent,
         NavBarComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        LoginComponent
     ],
     providers: [
-        QuotesApiService
+        QuotesApiService,
+        AuthService
     ],
     bootstrap: [AppComponent]
 })

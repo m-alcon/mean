@@ -9,7 +9,7 @@ module.exports = function (env) {
     let extractCSS = new ExtractTextPlugin({ filename: '[name].css'}),
         plugins = [
             new webpack.optimize.CommonsChunkPlugin({ name: ['app', 'vendor', 'polyfills'] }),
-            new ExtractTextPlugin({ filename: 'style.bundle.css'}),
+            extractCSS,
             new HtmlWebpackPlugin({ 
                 template: path.resolve(__dirname, './index.html'), 
                 hash: true 

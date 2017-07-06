@@ -4,10 +4,12 @@ import { CategoryDetailComponent } from "./category-detail/category-detail.compo
 import { NotFoundComponent } from "./errors/not-found.component"
 import { QuoteListComponent } from "./quote-list/quote-list.component";
 import { QuoteDetailComponent } from "./quote-detail/quote-detail.component";
+import { LoginComponent } from "./login/login.component";
 
 
 export const appRoutes: Routes = [
-    { path: "", component: QuoteListComponent },
+    { path: "", component: LoginComponent },
+    { path: "quote", component: QuoteListComponent },
     { path: "quote/:id", component: QuoteDetailComponent },
     { path: "category", component: CategoryListComponent },
     { path: "category/:id", component: CategoryDetailComponent},

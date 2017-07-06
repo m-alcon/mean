@@ -13,7 +13,7 @@ import { Character } from "../../models/character";
             <button class="close-button" (click)="close()">X</button>
             <form (ngSubmit)="onSubmit()" #quoteForm="ngForm">
                 <div class="form-content"><label>Text</label>
-                    <textarea class="formulary-text-input"
+                    <textarea class="form-text-input"
                         [(ngModel)] ="quote.text"
                         maxlength="200"
                         minlength="3"
@@ -28,7 +28,7 @@ import { Character } from "../../models/character";
                 </div>
                 <div class="form-content">
                     <label>Category</label>
-                    <select class="formulary-text-input"
+                    <select class="form-text-input"
                         [(ngModel)] ="quote.category_id"
                         name="category"
                         #category="ngModel">
@@ -47,7 +47,7 @@ import { Character } from "../../models/character";
                 
                 <div class="form-content">
                     <label>Character</label>
-                    <select class="formulary-text-input"
+                    <select class="form-text-input"
                         [(ngModel)] ="quote.character_id"
                         name="character"
                         #character="ngModel">
@@ -68,7 +68,7 @@ import { Character } from "../../models/character";
                 </div>
                 <div>
                     <input 
-                        class="button" 
+                        class="form-button" 
                         type="submit" 
                         value="Submit"
                         [class.inactive]="quoteForm.form.invalid">
@@ -79,23 +79,25 @@ import { Character } from "../../models/character";
     `
 })
 
-export class QuoteFormComponent implements OnInit {
+export class QuoteFormComponent {
     quote: Quote
     categories: Category[]
     characters: Character[]
     isActive: boolean
+    isEditing: boolean
 
     @Output() onSubmitted = new EventEmitter<Quote>()
+    @Output() onUpdated = new EventEmitter<Quote>()
 
     constructor(private api: QuotesApiService) {}
 
-    async ngOnInit () {
+    async init () {
+        if (!this.isEditing) {
+            this.quote = new Quote()
+            this.quote.category_id = -1
+            this.quote.character_id = -1
+        }
         if (!this.isActive) return
-        this.quote = new Quote()
-        this.quote.category = new Category()
-        this.quote.category_id = -1
-        this.quote.character = new Character()
-        this.quote.character_id = -1
         try {
             if (!this.categories)
                 this.categories = await this.api.getCategories()
@@ -110,11 +112,16 @@ export class QuoteFormComponent implements OnInit {
     async onSubmit () {
         this.quote.character = this.characters[this.quote.character_id - 1]
         this.quote.category = this.categories[this.quote.category_id - 1]
-        console.log(this.quote.text)
+    
         try {
-            await this.api.postQuote(this.quote)
-            console.log(this.quote)
-            this.onSubmitted.emit(this.quote);
+            if (this.isEditing) {
+                await this.api.putQuote(this.quote)
+                this.onUpdated.emit(this.quote);
+            }
+            else {
+                await this.api.postQuote(this.quote)
+                this.onSubmitted.emit(this.quote);
+            }
         } catch (error) {
             console.log(error)
         }
@@ -125,15 +132,12 @@ export class QuoteFormComponent implements OnInit {
         this.isActive = false;
     }
 
-    open () {
+    open (quote?: Quote) {
         this.isActive = true;
-        this.ngOnInit()
-    }
-
-    openAndEdit (quote: Quote) {
-        this.isActive = true;
-        console.log(quote)
-        this.ngOnInit()
-        this.quote = quote;
+        this.init()
+        if (quote) {
+            this.isEditing = true
+            this.quote = quote;
+        }
     }
 }

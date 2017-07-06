@@ -1,6 +1,7 @@
 const   express = require("express"), 
         http = require("http")
         bodyParser = require("body-parser")
+        cookieParser = require("cookie-parser")
 
 const   router = require("./router")
         database = require("./database/database")
@@ -13,6 +14,7 @@ class Server {
     init() {
         this.app = express()
         this.app.use(bodyParser.json())
+        this.app.use(cookieParser())
         this.app.use(express.static("./public"))
         this.app.use("/api",router)
         this.app.use(

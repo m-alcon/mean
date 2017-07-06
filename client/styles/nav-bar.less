@@ -1,0 +1,31 @@
+nav-bar {
+    .menu-button {
+        display: none;
+    }
+
+    .nav-container {
+        .overlay;
+        width: 25%;
+        background-color: rgba(256,256,256,0.2);
+    }
+
+    nav {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+
+        li {
+            font-size: @bigFontSize;
+            width: 100%;
+            line-height: 50px;
+            text-align: center;
+        }
+    }
+
+    a {
+        &:visited {
+            color: black;
+        }
+    }
+}

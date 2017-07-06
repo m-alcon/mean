@@ -7,4 +7,5 @@ export class Quote {
     category: Category
     category_id: number
     character_id: number
+    id: number
 }

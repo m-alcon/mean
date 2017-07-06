@@ -4,6 +4,7 @@ import { Component, OnInit } from "@angular/core";
     selector: "main-app",
     template: `
         <router-outlet>
+            <nav-bar></nav-bar>
         </router-outlet>
     `
     //templateUrl: "./app.html"

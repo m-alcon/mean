@@ -9,7 +9,7 @@
 
     &:focus {
         outline: none;
-        box-shadow: 0px 0px 15px @selectColor;
+        //box-shadow: 0px 0px 15px @selectColor;
     }
 
     &:hover{
@@ -40,6 +40,12 @@
     margin: auto 0;
 }
 
+.form-button {
+    .button;
+    margin-top: 20px;
+    float: right;
+}
+
 .close-button {
     background:none;
     border: none;
@@ -58,4 +64,16 @@
 .close-button:focus {
     outline: none;
     color: @selectColor;
+}
+
+.menu-button {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 30px;
+    font-size: 6vw;
+
+    &:hover {
+        cursor: pointer;
+    }
 }

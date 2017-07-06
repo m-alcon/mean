@@ -22,51 +22,39 @@ class Router {
 
         this.router.route("/quotes/:id")
             .get(/*authController.authenticate, */quoteController.getSingle)
-            .put(/*authController.authenticate, */(request,response) => response.json("Put"))
-            .post(/*authController.authenticate, */quoteController.update)
+            .put(/*authController.authenticate, */quoteController.update)
             .delete(/*authController.authenticate, */quoteController.remove)
 
         this.router.route("/quotes")
-            .get(/*authController.authenticate, */quoteController.getAll)
-            .put(/*authController.authenticate, */(request,response) => response.json("Put"))
-            .post(/*authController.authenticate, */quoteController.create)
-            .delete(/*authController.authenticate, */(request,response) => response.json("Delete"))      
+            .get(authController.authenticate, quoteController.getAll)
+            .post(/*authController.authenticate, */quoteController.create)   
 
         this.router.route("/movies/:id")
             .get(/*authController.authenticate, */movieController.getSingle)
-            .put(/*authController.authenticate, */(request,response) => response.json("Put"))
-            .post(/*authController.authenticate, */movieController.update)
+            .put(/*authController.authenticate, */movieController.update)
             .delete(/*authController.authenticate, */movieController.remove)
 
         this.router.route("/movies")
             .get(/*authController.authenticate, */movieController.getAll)
-            .put(/*authController.authenticate, */(request,response) => response.json("Put"))
             .post(/*authController.authenticate, */movieController.create)
-            .delete(/*authController.authenticate, */(request,response) => response.json("Delete")) 
 
         this.router.route("/categories/:id")
             .get(/*authController.authenticate, */categoryController.getSingle)
-            .put(/*authController.authenticate, */(request,response) => response.json("Put"))
-            .post(/*authController.authenticate, */categoryController.update)
+            .put(/*authController.authenticate, */categoryController.update)
             .delete(/*authController.authenticate, */categoryController.remove)
 
         this.router.route("/categories")
             .get(/*authController.authenticate, */categoryController.getAll)
-            .put(/*authController.authenticate, */(request,response) => response.json("Put"))
             .post(/*authController.authenticate, */categoryController.create)
-            .delete(/*authController.authenticate, */(request,response) => response.json("Delete")) 
 
         this.router.route("/characters/:id")
-        .get(/*authController.authenticate, */characterController.getSingle)
-        .put(/*authController.authenticate, */(request,response) => response.json("Put"))
-        .post(/*authController.authenticate, */characterController.update)
-        .delete(/*authController.authenticate, */characterController.remove)
+            .get(/*authController.authenticate, */characterController.getSingle)
+            .put(/*authController.authenticate, */characterController.update)
+            .delete(/*authController.authenticate, */characterController.remove)
 
         this.router.route("/characters")
             .get(/*authController.authenticate, */characterController.getAll)
-            .put(/*authController.authenticate, */(request,response) => response.json("Put"))
-            .post(/*authController.authenticate, */characterController.create)
-            .delete(/*authController.authenticate, */(request,response) => response.json("Delete"))        
+            .post(/*authController.authenticate, */characterController.create)      
     }
 }
 

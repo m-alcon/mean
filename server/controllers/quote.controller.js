@@ -31,6 +31,9 @@ class QuoteController {
 
     async create (request, response, next) {
         let userQuote = request.body
+        delete userQuote.id
+        delete userQuote.category
+        delete userQuote.character
         try {
             httpResponse.ok(response, 
                 await database.crud("quote", "create", userQuote))
@@ -44,6 +47,9 @@ class QuoteController {
     async update (request, response, next) {
         let {id} = request.params,
             userQuote = request.body
+        delete userQuote.id
+        delete userQuote.category
+        delete userQuote.character
         try {
             var quote = await database.crud("quote", "get", id)
         } catch (error) {

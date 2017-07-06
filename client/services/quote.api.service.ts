@@ -5,11 +5,16 @@ import { Quote } from "../models/quote"
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { User } from "../models/user";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class QuotesApiService {
      // Resolve HTTP using the constructor
-     constructor (private http: Http) {}
+     constructor (
+        private http: Http,
+        private router: Router
+    ) {}
      // private instance variable to hold base url
 
     private get(url: string) : Promise<any> {
@@ -20,6 +25,24 @@ export class QuotesApiService {
 
     private post(url: string, body:any) : Promise<any> {
         return this.http.post("/api/" + url, body)
+            .toPromise()
+            .then(response => response.json())
+            .catch(error => {
+                if (error.status == 401) {
+                    this.router.navigate(["login"])
+                }
+                throw error
+            })
+    }
+
+    private put(url: string, body:any) : Promise<any> {
+        return this.http.put("/api/" + url, body)
+            .toPromise()
+            .then(response => response.json())
+    }
+
+    login(user: User) {
+        return this.http.post("/api/login", user)
             .toPromise()
             .then(response => response.json())
     }
@@ -49,7 +72,11 @@ export class QuotesApiService {
     }
 
     postQuote(quote:Quote) {
-        this.post("quotes",quote)
+        return this.post("quotes",quote)
+    }
+
+    putQuote(quote:Quote) {
+        this.put("quotes/" + quote.id, quote)
     }
 
 }

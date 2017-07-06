@@ -16,12 +16,21 @@ let _generateToken = email => {
 class AuthController {
     async login (request, response) {
 
-        let {email, password} = request.body
+        let {username, email, password} = request.body
         try {
-            let users = await database.crud("user","find", {email}),
+            let users = await database.crud("user","find", {username})
+            console.log(users)
+            if (!users.length) {
+                users = await database.crud("user","find", {email})
+            }
+            if (users) {
                 user = users[0]
-            if (!users.length || !bcrypt.compareSync(password, user.password)) {
-                return httpResponse.unauthorized(response)
+                if (!users.length || !bcrypt.compareSync(password, user.password)) {
+                    return httpResponse.unauthorized(response)
+                }
+                let token = _generateToken(user.email)
+                response.cookie("api-token", token)
+                httpResponse.ok(response, {token: token } )
             }
             else return httpResponse.unauthorized(response)
         } catch (error) {
@@ -47,7 +56,7 @@ class AuthController {
     }
 
     async authenticate (request, response, next) {
-        let {token} = request.headers
+        let token = request.cookies["api-token"]
         if (token) {
             let verify = await promisify(jwt.verify)
             try {
