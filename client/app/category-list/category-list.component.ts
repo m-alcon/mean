@@ -5,14 +5,16 @@ import { Category } from "../../models/category"
 @Component({
     selector: "category-list",
     template: `
-        <ul class="spaced-list selectable-list">
-            <li 
-                *ngFor="let category of categories"
-                routerLink="/category/{{category.id}}">
-                {{ category.name }}
-            </li>
-            <div *ngIf="description">{{ description }}</div>
-        </ul>`,
+        <section class="category-list-component container">
+            <ul class="spaced-list selectable-list container-item">
+                <li 
+                    *ngFor="let category of categories">
+                    <a routerLink="/category/{{category.id}}">{{ category.name }}</a>
+                </li>
+                <div *ngIf="description">{{ description }}</div>
+            </ul>
+        </section>
+    `
 })
 export class CategoryListComponent {
     categories: Category[]

@@ -7,24 +7,28 @@ import { AuthService } from "../../services/auth.service";
 @Component({
     selector: 'quote-list',
     template: `
-        <div class="flex-container-column">
-            <h1 class="text-center flex-item">Quotes list</h1>
-            <button class="add-button flex-item" (click)="onAddQuote()">+ Add Quote</button>
-            <div class="flex-item-quote"
-                *ngFor="let quote of quotes">
-                <h2 class="quote-text">"{{quote.text}}"</h2>
-                <div class="quote-footer">
-                    <i 
-                        class="material-icons edit-button"
-                        (click)="onEditQuote(quote.id)"
-                    >
-                        mode_edit
-                    </i>
-                    <p class="quote-character">{{quote.character?.name}}</p>
+        <section class="container">
+            <div class="container-item">
+                <h1 class="text-center flex-item">Quotes list</h1>
+                <div class="flex-item">
+                    <button class="add-button" (click)="onAddQuote()">+ Add Quote</button>
+                </div>
+                <div class="flex-item-quote"
+                    *ngFor="let quote of quotes">
+                    <h2 class="quote-text">"{{quote.text}}"</h2>
+                    <div class="quote-footer">
+                        <i 
+                            class="material-icons edit-button"
+                            (click)="onEditQuote(quote.id)"
+                        >
+                            mode_edit
+                        </i>
+                        <p class="quote-character">{{quote.character?.name}}</p>
+                    </div>
                 </div>
             </div>
             
-        </div>
+        </section>
         <quote-form 
             #quoteForm
             (onSubmitted)="onNewQuoteAdded($event)"

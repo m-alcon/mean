@@ -3,6 +3,7 @@ import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from "./app.component";
 import { appRoutes } from "./routes"
 import { QuotesApiService } from "../services/quote.api.service";
@@ -23,7 +24,8 @@ import { AuthService } from "../services/auth.service";
         RouterModule.forRoot(appRoutes),
         BrowserModule,
         HttpModule,
-        FormsModule
+        FormsModule,
+        BrowserAnimationsModule
     ],
     declarations: [
         AppComponent,

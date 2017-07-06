@@ -3,17 +3,21 @@
     margin: 0 auto;
 }
 
-.flex-container {
+.container {
     display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 40%;
+    margin: auto;
 }
 
-.flex-container-column {
-    .flex-container;
-    flex-direction: column;
+.container-item {
+    margin: auto;
 }
 
 .flex-item {
     margin: 5% auto;
+    width: 100%;
 }
 
 .guion-list {
@@ -35,12 +39,12 @@
 }
 
 .selectable-list {
-    li:hover {
-        color: @secondaryColor;
+    a:hover {
+        color: @secondaryColor !important;
         cursor: pointer;
     }
 
-    li:focus {
+    a:focus {
         outline: none;
         color: @selectColor;
     }

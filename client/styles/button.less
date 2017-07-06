@@ -27,6 +27,7 @@
 .add-button {
     .button;
     width: 130px;
+    margin: 0 calc(~'50% - 65px');
 }
 
 .edit-button {
@@ -49,21 +50,19 @@
 .close-button {
     background:none;
     border: none;
-    font-size: @mediumFontSize;
     color: @mainColor;
     padding: 5px 10px 5px 10px !important;
     float: right;
-    transform: translateX(30px) translateY(-30px);
-}
 
-.close-button:hover {
-    color: @selectColor;
-    cursor: pointer;
-}
+    &:hover {
+        color: @selectColor;
+        cursor: pointer;
+    }
 
-.close-button:focus {
-    outline: none;
-    color: @selectColor;
+    &:focus {
+        outline: none;
+        color: @selectColor;
+    }
 }
 
 .menu-button {
@@ -72,8 +71,9 @@
     left: 0;
     margin: 30px;
     font-size: 6vw;
-
+    z-index: 2;
     &:hover {
         cursor: pointer;
+        color: grey;
     }
 }

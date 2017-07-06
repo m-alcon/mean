@@ -1,12 +1,10 @@
 nav-bar {
-    .menu-button {
-        display: none;
-    }
-
     .nav-container {
         .overlay;
         width: 25%;
         background-color: rgba(256,256,256,0.2);
+        transition: left 1s linear;
+        font-size: @bigFontSize;
     }
 
     nav {
@@ -16,16 +14,22 @@ nav-bar {
         transform: translate(-50%,-50%);
 
         li {
-            font-size: @bigFontSize;
             width: 100%;
-            line-height: 50px;
+            line-height: 70px;
             text-align: center;
         }
     }
 
     a {
-        &:visited {
-            color: black;
+        &:hover {
+            color: rgba(100,100,100,0.0) !important;
+        }
+    }
+    
+    .close-button {
+        margin: 2%;
+        &:hover {
+            color: transparent;
         }
     }
 }

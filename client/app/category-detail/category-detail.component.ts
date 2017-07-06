@@ -7,13 +7,15 @@ import { Category } from "../../models/category";
 @Component({
     selector: 'category-detail',
     template: `
-    <section *ngIf="category">
-        <h1>{{ category.name }}</h1>
-        <ul class="guion-list">
-            <li *ngFor="let quote of category.quotes">
-                {{ quote.text }}
-            </li>
-        </ul>
+    <section class="container" *ngIf="category">
+        <div class="container-item">
+            <h1 class="text-center">{{ category.name }}</h1>
+            <ul class="guion-list">
+                <li *ngFor="let quote of category.quotes">
+                    {{ quote.text }}
+                </li>
+            </ul>
+        </div>
     </section>
     `
 })

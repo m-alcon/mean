@@ -9,8 +9,8 @@ import { Character } from "../../models/character";
     selector: 'quote-form',
     template: `
     <div class="overlay" *ngIf="isActive">
-        <div class="form-box">
-            <button class="close-button" (click)="close()">X</button>
+        <section class="form-box">
+            <i class="close-button" (click)="close()">close</i>
             <form (ngSubmit)="onSubmit()" #quoteForm="ngForm">
                 <div class="form-content"><label>Text</label>
                     <textarea class="form-text-input"
@@ -74,7 +74,7 @@ import { Character } from "../../models/character";
                         [class.inactive]="quoteForm.form.invalid">
                 </div>
             </form>
-        </div>
+        </section>
     </div>
     `
 })
