@@ -36,6 +36,7 @@ class Database {
             quote.associate(this.db)
             character.associate(this.db)
 
+            await this._drop()
             if (process.env.ENV === 'development') {
                  await this._drop()
                 console.log(" - Dropped successfully")
