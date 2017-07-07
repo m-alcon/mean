@@ -7,7 +7,6 @@ import { Component, OnInit } from "@angular/core";
             <nav-bar></nav-bar>
         </router-outlet>
     `
-    //templateUrl: "./app.html"
 })
 export class AppComponent {
 }

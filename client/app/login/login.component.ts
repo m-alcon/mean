@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from "../../models/user";
 import { QuotesApiService } from "../../services/quote.api.service";
+import { Router } from "@angular/router";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
     selector: 'login',
@@ -21,13 +23,15 @@ import { QuotesApiService } from "../../services/quote.api.service";
                     type="password" 
                     name="password"
                     [(ngModel)]="user.password"
+                    (keyup.enter)="onSendLogin()"
                 >
-                <button 
+                
+                <input
+                    type="submit" 
+                    value="Login"
                     class="form-button"
                     (click)="onSendLogin()"
                 >
-                    Log in
-                </button>
              </div>
         </section>
        
@@ -37,13 +41,24 @@ import { QuotesApiService } from "../../services/quote.api.service";
 export class LoginComponent implements OnInit {
     user: User
 
-    constructor(private api: QuotesApiService) { }
+    constructor(
+        private api: QuotesApiService,
+        private auth: AuthService,
+        private router: Router
+    ) { }
 
     ngOnInit() {
         this.user = new User()
     }
 
-    onSendLogin() {
-        this.api.login(this.user)
+    async onSendLogin() {
+        try {
+            await this.api.login(this.user)
+            this.auth.announceIsLogged()
+            this.router.navigate([""])
+        } catch (error) {
+            console.log(error)
+        }
+       
     }
 }

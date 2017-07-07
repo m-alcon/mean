@@ -11,7 +11,12 @@ import { AuthService } from "../../services/auth.service";
             <div class="container-item">
                 <h1 class="text-center flex-item">Quotes list</h1>
                 <div class="flex-item">
-                    <button class="add-button" (click)="onAddQuote()">+ Add Quote</button>
+                    <button 
+                        class="add-button" 
+                        (click)="onAddQuote()"
+                        *ngIf="isLogged"
+                        >+ Add Quote
+                    </button>
                 </div>
                 <div class="flex-item-quote"
                     *ngFor="let quote of quotes">
@@ -20,6 +25,7 @@ import { AuthService } from "../../services/auth.service";
                         <i 
                             class="material-icons edit-button"
                             (click)="onEditQuote(quote.id)"
+                            *ngIf="isLogged"
                         >
                             mode_edit
                         </i>
@@ -40,6 +46,7 @@ import { AuthService } from "../../services/auth.service";
 
 export class QuoteListComponent implements OnInit {
     quotes: Quote[]
+    isLogged: boolean
 
     @ViewChild (QuoteFormComponent)
     quoteForm: QuoteFormComponent
@@ -50,11 +57,13 @@ export class QuoteListComponent implements OnInit {
     ) { }
 
     async ngOnInit() { 
-        console.log(this.auth.isAuthorized())
         try {
+            this.auth.isLogged$.subscribe(isLogged => {
+                this.isLogged = isLogged
+            })
             this.quotes = await this.api.getQuotes()
         } catch (error) {
-            
+            console.log(error)
         }
     }
 

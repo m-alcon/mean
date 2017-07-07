@@ -8,8 +8,8 @@ import { LoginComponent } from "./login/login.component";
 
 
 export const appRoutes: Routes = [
-    { path: "", component: LoginComponent },
-    { path: "quote", component: QuoteListComponent },
+    { path: "login", component: LoginComponent },
+    { path: "", component: QuoteListComponent },
     { path: "quote/:id", component: QuoteDetailComponent },
     { path: "category", component: CategoryListComponent },
     { path: "category/:id", component: CategoryDetailComponent},

@@ -10,7 +10,7 @@ import { Character } from "../../models/character";
     template: `
     <div class="overlay" *ngIf="isActive">
         <section class="form-box">
-            <i class="close-button" (click)="close()">close</i>
+            <i class="material-icons close-button" (click)="close()">close</i>
             <form (ngSubmit)="onSubmit()" #quoteForm="ngForm">
                 <div class="form-content"><label>Text</label>
                     <textarea class="form-text-input"

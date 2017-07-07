@@ -7,6 +7,7 @@ import {
   animate,
   transition
 } from '@angular/animations';
+import { AuthService } from "../../services/auth.service";
 
 @Component({
     selector: 'nav-bar',
@@ -22,9 +23,13 @@ import {
         <i class="material-icons close-button" (click)="onShowMenu()">close</i>
         <nav>
             <ul class="flexbox-container">
-                <li><a routerLink="">Login</a></li>
-                <li><a routerLink="quote">Quotes</a></li>
-                <li><a routerLink="category">Categories</a></li>
+                <li><a 
+                    (click)="onShowMenu()"
+                    routerLink="login"
+                    *ngIf="!isLogged"
+                    >Login</a></li>
+                <li><a (click)="onShowMenu()" routerLink="">Quotes</a></li>
+                <li><a (click)="onShowMenu()" routerLink="category">Categories</a></li>
             </ul>
         </nav>
     </div>
@@ -56,18 +61,19 @@ import {
 })
 
 export class NavBarComponent implements OnInit {
-    showMenu: boolean
-    state: string
+    showMenu: boolean = false
+    state: string = "out"
+    isLogged: boolean
 
-    constructor() { }
+    constructor(private auth: AuthService) {}
 
     ngOnInit() {
-        this.state = "out";
-        this.showMenu = false
+        this.auth.isLogged$.subscribe(isLogged => {
+            this.isLogged = isLogged
+        })
     }
 
     onShowMenu() {
-        console.log(state)
         this.showMenu = !this.showMenu;
         this.state = this.showMenu ? 'in' : 'out';
     }

@@ -8,7 +8,8 @@
     "start": "node ./server/bin/initServer.js",
     "dev:server": "node_modules/.bin/nodemon ./server/bin/initServer.js",
     "dev:client": "node_modules/.bin/webpack-dev-server --config ./client/webpack.config.js --inline --hot --history-api-fallback --no-info --colors",
-    "build": "node_modules/.bin/webpack --env.release --config ./client/webpack.config.js"
+    "build": "node_modules/.bin/webpack --env.release --config ./client/webpack.config.js",
+    "heroku-postbuild": "node_modules/.bin/webpack --env.release --config ./client/webpack.config.js"
   },
   "dependencies": {
     "@angular/animations": "4.1.3",

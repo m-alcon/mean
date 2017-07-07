@@ -19,9 +19,10 @@ class AuthController {
         let {username, email, password} = request.body
         try {
             let users = await database.crud("user","find", {username})
-            console.log(users)
+            console.log(users[0])
             if (!users.length) {
                 users = await database.crud("user","find", {email})
+            console.log(bcrypt.compareSync(password, users[0].password))
             }
             if (users) {
                 user = users[0]
