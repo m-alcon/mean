@@ -2,6 +2,7 @@ const   express = require("express"),
         http = require("http")
         bodyParser = require("body-parser")
         cookieParser = require("cookie-parser")
+        path = require("path")
 
 const   router = require("./router")
         database = require("./database/database")
@@ -15,7 +16,7 @@ class Server {
         this.app = express()
         this.app.use(bodyParser.json())
         this.app.use(cookieParser())
-        this.app.use(express.static("./public"))
+        this.app.use(express.static(path.join(__dirname,"./public")))
         this.app.use("/api",router)
         this.app.use(
             (request,response) => response.status(404).json({message: "Resource not found"})
