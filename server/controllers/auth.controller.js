@@ -1,9 +1,12 @@
 const   bcrypt = require ("bcrypt-nodejs"),
-        { promisify } = require ("util")
+        { promisify } = require ("util"),
+        jwt = require ("jsonwebtoken"),
+        cookieParser = require("cookie-parser")
 
 const   database = require ("../database/database"),
         httpResponse = require ("../utils/http-response"),
-        jwt = require ("jsonwebtoken")
+        mail = require("./email.controller")
+        
 
 let _generateToken = email => {
     return jwt.sign(
@@ -14,24 +17,79 @@ let _generateToken = email => {
 }
 
 class AuthController {
+    async signup (request, response) {
+        let {email, password, username} = request.body
+        try {
+            let token = _generateToken(email)
+            let user = await database.crud("user", "create", {
+                email: email,
+                password: password,
+                username: username,
+                valid: token
+            })
+            if (user) {
+                //response.cookie("api-token", token)
+                mail.sendEmail(email,token)
+                httpResponse.ok(response, {token: token } )
+            }
+        } catch (error) {
+            if (error.code == "ER_DUP_ENTRY")
+                httpResponse.badRequest(response, error)
+            else httpResponse.error(response, error)
+        }
+    }
+
+    async validate (request, response) {
+        let {token} = request.query
+        try {
+            let users = await database.crud("user","find", {valid: token})
+            var user = users[0]
+            var auxUser = {
+                username: user.username,
+                password: user.password,
+                email: user.email,
+                valid: "1"
+            }
+        } catch (error) {
+            response.redirect('http://localhost:8080/404')
+            return httpResponse.error(response, error)
+        }
+        user.save(auxUser,(error, savedUser) => {
+            if (error) {
+                response.redirect('http://localhost:8080/404')
+                if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") {
+                    return httpResponse.badRequest(response, error)
+                }
+                else return httpResponse.error(response, error)
+            }
+            else {
+                return response.redirect('http://localhost:8080/validate')
+            }
+        })
+    }
+
     async login (request, response) {
 
         let {username, email, password} = request.body
         try {
             let users = await database.crud("user","find", {username})
-            console.log(users[0])
             if (!users.length) {
                 users = await database.crud("user","find", {email})
-            console.log(bcrypt.compareSync(password, users[0].password))
             }
             if (users) {
                 user = users[0]
                 if (!users.length || !bcrypt.compareSync(password, user.password)) {
                     return httpResponse.unauthorized(response)
                 }
-                let token = _generateToken(user.email)
-                response.cookie("api-token", token)
-                httpResponse.ok(response, {token: token } )
+                if (user.valid === "1") {
+                    let token = _generateToken(user.email)
+                    response.cookie("api-token", token)
+                    httpResponse.ok(response, {token: token })
+                }
+                else {
+                    return httpResponse.badRequest(response,"Not confirmed email.")
+                }
+                
             }
             else return httpResponse.unauthorized(response)
         } catch (error) {
@@ -39,20 +97,15 @@ class AuthController {
         }
     }
 
-    async signup (request, response) {
-        let {email, password, username} = request.body
-        try {
-            let user = await database.crud("user", "create", {
-                email: email,
-                password: password,
-                username: username
-            })
-            if (user)
-                httpResponse.ok(response, {token: _generateToken(user.email)})
-        } catch (error) {
-            if (error.code == "ER_DUP_ENTRY")
-                httpResponse.badRequest(response, error)
-            else httpResponse.error(response, error)
+    async logout (request, response) {
+        let token = request.cookies["api-token"]
+
+        if (token) {
+            response.clearCookie("api-token")
+            return httpResponse.ok(response, {token: token } )
+        }
+        else {
+            return httpResponse.badRequest(response)
         }
     }
 

@@ -30,6 +30,7 @@
     "jsonwebtoken": "^7.4.1",
     "mysql": "^2.13.0",
     "ngx-cookies": "^1.0.5",
+    "nodemailer": "^4.0.1",
     "orm": "^3.2.3",
     "rxjs": "5.0.1",
     "tether": "^1.4.0",

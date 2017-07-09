@@ -6,7 +6,7 @@ class HttpResponse {
     }
 
     badRequest (res, msg) {
-        if (!msg || process.env.ENV == "production")
+        if (!msg && process.env.ENV == "production")
             msg = {message: "The request was malformed or invalid."}
         res.status(400).json(msg)
     }

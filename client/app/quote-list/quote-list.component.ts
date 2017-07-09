@@ -7,9 +7,8 @@ import { AuthService } from "../../services/auth.service";
 @Component({
     selector: 'quote-list',
     template: `
-        <section class="container">
+        <section class="container first-margin">
             <div class="container-item">
-                <h1 class="text-center flex-item">Quotes list</h1>
                 <div class="flex-item">
                     <button 
                         class="add-button" 
@@ -20,7 +19,7 @@ import { AuthService } from "../../services/auth.service";
                 </div>
                 <div class="flex-item-quote"
                     *ngFor="let quote of quotes">
-                    <h2 class="quote-text">"{{quote.text}}"</h2>
+                    <div class="container-quote"><h2 class="quote-text container-item">"{{quote.text}}"</h2></div>
                     <div class="quote-footer">
                         <i 
                             class="material-icons edit-button"

@@ -7,17 +7,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from "./app.component";
 import { appRoutes } from "./routes"
 import { QuotesApiService } from "../services/quote.api.service";
-import { RandomQuoteComponent } from "./random-quote.component";
+import { RandomQuoteComponent } from "./random-quote/random-quote.component";
 import { CategoryListComponent } from "./category-list/category-list.component";
 import { CategoryDetailComponent } from "./category-detail/category-detail.component";
 import { LoginComponent } from "./login/login.component";
 import { NotFoundComponent } from "./errors/not-found.component"
-
+import { SignupComponent } from "./signup/signup.component";
 import { QuoteListComponent } from "./quote-list/quote-list.component";
 import { QuoteDetailComponent } from "./quote-detail/quote-detail.component";
 import { NavBarComponent } from "./nav-bar/nav-bar.component";
 import { QuoteFormComponent } from "./quote-list/quote-form.component";
 import { AuthService } from "../services/auth.service";
+import { LogoutComponent } from "./logout/logout.component";
+import { ValidateComponent } from "./validate/validate.component";
+import { NotValidComponent } from "./errors/not-valid.component";
 
 @NgModule({
     imports: [
@@ -37,7 +40,11 @@ import { AuthService } from "../services/auth.service";
         QuoteFormComponent,
         NavBarComponent,
         NotFoundComponent,
-        LoginComponent
+        LoginComponent,
+        SignupComponent,
+        LogoutComponent,
+        ValidateComponent,
+        NotValidComponent
     ],
     providers: [
         QuotesApiService,

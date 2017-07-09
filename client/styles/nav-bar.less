@@ -2,9 +2,9 @@ nav-bar {
     .nav-container {
         .overlay;
         width: 25%;
-        background-color: rgba(256,256,256,0.2);
+        background-color: @green-alpha;
         transition: left 1s linear;
-        font-size: @bigFontSize;
+        font-size: 2em;
     }
 
     nav {
@@ -15,19 +15,25 @@ nav-bar {
 
         li {
             width: 100%;
-            line-height: 70px;
+            line-height: 1.8em;
             text-align: center;
+            margin: 45% 0px;
         }
     }
 
     a {
+        color: @grey;
+        &:visited {
+            color: @grey;
+        }
         &:hover {
-            color: rgba(100,100,100,0.0) !important;
+            color: transparent !important;
         }
     }
     
     .close-button {
         margin: 2%;
+        color: @grey;
         &:hover {
             color: transparent;
         }

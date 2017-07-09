@@ -1,8 +1,9 @@
 const users = [
     {
-        email: "miquel.1996@gmail.com",
+        email: "smtpmiquel@gmail.com",
         password: process.env.PWD_SUPERUSER,
-        username: "miquelalcon"
+        username: "miquelalcon",
+        valid: "1"
     }
 ]
 

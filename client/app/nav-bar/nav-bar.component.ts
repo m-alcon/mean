@@ -13,7 +13,6 @@ import { AuthService } from "../../services/auth.service";
     selector: 'nav-bar',
     template: `
     <i  
-        [@visualizeButton]="state"
         class="material-icons menu-button"
         (click)="onShowMenu()"
     >
@@ -25,10 +24,22 @@ import { AuthService } from "../../services/auth.service";
             <ul class="flexbox-container">
                 <li><a 
                     (click)="onShowMenu()"
+                    routerLink="signup"
+                    *ngIf="!isLogged"
+                    >Sign up</a></li>
+                <li><a 
+                    (click)="onShowMenu()"
                     routerLink="login"
                     *ngIf="!isLogged"
-                    >Login</a></li>
-                <li><a (click)="onShowMenu()" routerLink="">Quotes</a></li>
+                    >Log in</a></li>
+                    
+                <li><a 
+                    (click)="onShowMenu()"
+                    routerLink="logout"
+                    *ngIf="isLogged"
+                    >Log out</a></li>
+                <li><a (click)="onShowMenu()" routerLink="">Random quote</a></li>
+                <li><a (click)="onShowMenu()" routerLink="quote">Quotes</a></li>
                 <li><a (click)="onShowMenu()" routerLink="category">Categories</a></li>
             </ul>
         </nav>
@@ -37,26 +48,14 @@ import { AuthService } from "../../services/auth.service";
     animations: [
         trigger("visualizeMenu",[
             state("out",style({
-                left: "-25%"
+                left: "-100%"
             })),
             state("in", style({
                 left: "0"
             })),
             transition('out => in', animate('0.5s ease-out')),
             transition('in => out', animate('0.5s ease-in'))
-        ]),
-         trigger("visualizeButton",[
-            state("in",style({
-                'font-size': "0px",
-                transform: "rotate(0deg)"
-            })),
-            state("out", style({
-                'font-size': "6vw",
-                transform: "rotate(360deg)"
-            })),
-            transition('out => in', animate('0.5s linear')),
-            transition('in => out', animate('0.5s linear'))
-        ]),
+        ])
     ]
 })
 

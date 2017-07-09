@@ -17,34 +17,75 @@ export class QuotesApiService {
     ) {}
      // private instance variable to hold base url
 
-    private get(url: string) : Promise<any> {
-        return this.http.get("/api/" + url)
+    private catchError(error) {
+        if (error.status == 401) {
+            this.router.navigate(["login"])
+        }
+        console.log(error)
+    }
+
+    private get(url: string, params?: URLSearchParams) : Promise<any> {
+        if (params) {
+            return this.http.get("/api/" + url, {search: params})
             .toPromise()
             .then(response => response.json())
+            .catch(this.catchError)
+        }
+        else return this.http.get("/api/" + url)
+            .toPromise()
+            .then(response => response.json())
+            .catch(this.catchError)
     }
 
     private post(url: string, body:any) : Promise<any> {
         return this.http.post("/api/" + url, body)
             .toPromise()
             .then(response => response.json())
-            .catch(error => {
-                if (error.status == 401) {
-                    this.router.navigate(["login"])
-                }
-                throw error
-            })
+            .catch(this.catchError)
     }
 
     private put(url: string, body:any) : Promise<any> {
         return this.http.put("/api/" + url, body)
             .toPromise()
             .then(response => response.json())
+            .catch(this.catchError)
     }
 
     login(user: User) {
         return this.http.post("/api/login", user)
             .toPromise()
+            .then(response => {
+                response.json()
+                this.router.navigate([""],{skipLocationChange: true})
+            })
+            .catch(error => {
+                if (error.status == 400) {
+                    this.router.navigate(["400"],{skipLocationChange: true})
+                }
+                else console.log(error)
+            })
+    }
+
+    signup(user: User) {
+        return this.post("signup", user)
+    }
+
+    logout() {
+        return this.http.post("/api/logout", [])
+            .toPromise()
             .then(response => response.json())
+            .catch(error => {
+                if (error.status == 400) {
+                    this.router.navigate(["404"],{skipLocationChange: true})
+                }
+                else console.log(error)
+            })
+    }
+
+    validate(token: string) {
+        let params: URLSearchParams = new URLSearchParams()
+        params.set("token",token)
+        return this.get("confirm-email", params)
     }
 
     getQuotes() : Promise<any> {

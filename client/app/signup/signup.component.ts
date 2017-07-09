@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from "../../models/user";
 import { QuotesApiService } from "../../services/quote.api.service";
-import { Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
+import { Router } from "@angular/router";
+import { User } from "../../models/user";
 
 @Component({
-    selector: 'login',
+    selector: 'signup',
     template: `
-        <section class="login-component">
-            <form  (ngSubmit)="onSendLogin()" class="form-box" #loginForm="ngForm">
-                <h1 class="text.center">Log in</h1>
-                <label class="form-content">Username or Email</label>
+        <section class="signup-component container">
+            <form (ngSubmit)="onSendSignup()" *ngIf="!emailSended" class="form-box" #signupForm="ngForm">
+                <h1 class="text.center">Sign up</h1>
+                <label class="form-content">Username</label>
                 <input 
                     class="form-text-input"
                     type="text" 
                     name="username"
-                    [(ngModel)]="user.email"
+                    [(ngModel)]="user.username"
                     #username="ngModel"
                     maxlength="100"
                     required
@@ -23,13 +23,26 @@ import { AuthService } from "../../services/auth.service";
                 <div class="little-font" *ngIf="username.invalid && username.dirty">
                     This field is obligatory (at most 100 characters)
                 </div>
+                <label class="form-content">Email</label>
+                <input 
+                    class="form-text-input"
+                    type="email" 
+                    name="email"
+                    [(ngModel)]="user.email"
+                    (keyup.enter)="onSendSignup()"
+                    #email="ngModel"
+                    required
+                >
+                <div class="little-font" *ngIf="email.invalid && email.dirty">
+                    This field is obligatory
+                </div>
                 <label class="form-content">Password</label>
                 <input 
                     class="form-text-input"
                     type="password" 
                     name="password"
                     [(ngModel)]="user.password"
-                    (keyup.enter)="onSendLogin()"
+                    (keyup.enter)="onSendSignup()"
                     #password="ngModel"
                     minlength="3"
                     required
@@ -37,21 +50,26 @@ import { AuthService } from "../../services/auth.service";
                 <div class="little-font" *ngIf="password.invalid && password.dirty">
                     This field is obligatory (at least 3 characters)
                 </div>
+                
                 <input
                     type="submit" 
-                    value="Log in"
+                    value="Sign up"
                     class="form-button"
-                    [class.inactive]="loginForm.form.invalid"
+                    [class.inactive]="signupForm.form.invalid"
                 >
              </form>
+            <div *ngIf="emailSended" class="container-item big-font">
+                Validation email sended. Check your email inbox and confirm it.
+            </div>
         </section>
        
     `
 })
 
-export class LoginComponent implements OnInit {
+export class SignupComponent implements OnInit {
     user: User
-
+    emailSended: boolean = false
+    
     constructor(
         private api: QuotesApiService,
         private auth: AuthService,
@@ -62,13 +80,14 @@ export class LoginComponent implements OnInit {
         this.user = new User()
     }
 
-    async onSendLogin() {
+    async onSendSignup () {
         try {
-            this.user.username = this.user.email
-            await this.api.login(this.user)
+            await this.api.signup(this.user)
+            this.emailSended = true;
             this.auth.announceIsLogged()
+            setTimeout(() => this.router.navigate([""]), 3000)
         } catch (error) {
-            console.log(error)
+            console.log(error, "signup")
         }
        
     }

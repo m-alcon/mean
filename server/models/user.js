@@ -19,6 +19,10 @@ class User {
             username: {
                 type: "text",
                 required: true
+            },
+            valid: {
+                type: "text",
+                required: true
             }
         })
     }

@@ -9,7 +9,7 @@ import { Character } from "../../models/character";
     selector: 'quote-form',
     template: `
     <div class="overlay" *ngIf="isActive">
-        <section class="form-box">
+        <section class="form-box-popup">
             <i class="material-icons close-button" (click)="close()">close</i>
             <form (ngSubmit)="onSubmit()" #quoteForm="ngForm">
                 <div class="form-content"><label>Text</label>
@@ -23,14 +23,15 @@ import { Character } from "../../models/character";
                         #text="ngModel"> 
                     </textarea>
                 </div>
-                <div *ngIf="text.invalid && text.dirty">
-                    This field is obligatory
+                <div class="little-font" *ngIf="text.invalid && text.dirty">
+                    This field is obligatory (at least 3 characters and at most 200)
                 </div>
                 <div class="form-content">
                     <label>Category</label>
                     <select class="form-text-input"
                         [(ngModel)] ="quote.category_id"
                         name="category"
+                        required
                         #category="ngModel">
                         <option value="-1" disabled selected> Select a category</option>
                         <option 
@@ -39,7 +40,7 @@ import { Character } from "../../models/character";
                         >
                             {{category.name}}
                         </option>
-                        <div *ngIf="category.invalid && category.dirty">
+                        <div class="little-font" *ngIf="category.invalid && category.dirty">
                             This field is obligatory
                         </div>
                     </select>
@@ -50,6 +51,7 @@ import { Character } from "../../models/character";
                     <select class="form-text-input"
                         [(ngModel)] ="quote.character_id"
                         name="character"
+                        required
                         #character="ngModel">
                         <option value="-1"> Select a character</option>
                         <option 
@@ -58,12 +60,12 @@ import { Character } from "../../models/character";
                         >
                             {{character.name}}
                         </option>
-                        <div *ngIf="character.invalid && character.dirty">
+                        <div class="little-font" *ngIf="character.invalid && character.dirty">
                             This field is obligatory
                         </div>
                     </select>
                 </div>
-                <div *ngIf="character.invalid && character.dirty">
+                <div class="little-font" *ngIf="character.invalid && character.dirty">
                     This field is obligatory
                 </div>
                 <div>
@@ -130,6 +132,7 @@ export class QuoteFormComponent {
 
     close () {
         this.isActive = false;
+        this.isEditing = false;
     }
 
     open (quote?: Quote) {

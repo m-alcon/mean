@@ -15,6 +15,8 @@ import { Category } from "../../models/category";
                     {{ quote.text }}
                 </li>
             </ul>
+            <i routerLink=".." class="material-icons back-button" 
+                >arrow_back</i>
         </div>
     </section>
     `

@@ -1,7 +1,7 @@
 .button {
     font-size: @mediumFontSize;
-    background-color: white;
-    color: black;
+    background-color: @darkColor;
+    color: @fontColor;
     border: none;
     border-radius: 20px;
     padding: 5px 15px 5px 15px;
@@ -9,7 +9,7 @@
 
     &:focus {
         outline: none;
-        //box-shadow: 0px 0px 15px @selectColor;
+        //box-shadow: 0px 0px 15px @hoverColor;
     }
 
     &:hover{
@@ -50,30 +50,57 @@
 .close-button {
     background:none;
     border: none;
-    color: @mainColor;
+    color: @fontColor;
     padding: 5px 10px 5px 10px !important;
     float: right;
 
     &:hover {
-        color: @selectColor;
+        color: @hoverColor;
         cursor: pointer;
     }
 
     &:focus {
         outline: none;
-        color: @selectColor;
+        color: @hoverColor;
+    }
+}
+
+.icon-button {
+    font-size: 4em;
+    color: @green !important;
+    &:hover {
+        cursor: pointer;
+        color: @hoverColor !important;
+    }
+
+    &:focus {
+        outline: none;
     }
 }
 
 .menu-button {
+    .icon-button;
     position: fixed;
-    top: 0;
+    top: 0px;
     left: 0;
     margin: 30px;
-    font-size: 6vw;
-    z-index: 2;
+    transition: margin 0.2s linear;
+
     &:hover {
         cursor: pointer;
-        color: grey;
+        margin-top: 20px !important;
+        color: @green !important;
     }
+    z-index: 3;
+}
+
+.back-button {
+    .icon-button;
+    float: right;
+}
+
+.shuffle-button {
+    .icon-button;
+    font-size: 2em;
+    margin: auto 0;
 }

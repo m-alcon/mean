@@ -19,6 +19,8 @@ class Router {
         */
         this.router.post("/login", authController.login)
         this.router.post("/signup", authController.signup)
+        this.router.post("/logout", authController.logout)
+        this.router.get("/confirm-email", authController.validate)
 
         this.router.route("/quotes/:id")
             .get(/*authController.authenticate, */quoteController.getSingle)
