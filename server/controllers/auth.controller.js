@@ -29,7 +29,7 @@ class AuthController {
             })
             if (user) {
                 //response.cookie("api-token", token)
-                mail.sendEmail(email,token)
+                mail.sendEmail(user.username,email,token)
                 httpResponse.ok(response, {token: token } )
             }
         } catch (error) {

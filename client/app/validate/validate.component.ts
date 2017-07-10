@@ -6,16 +6,17 @@ import { ActivatedRoute, Router } from "@angular/router";
     selector: 'validate-component',
     template: `
         <section class="container">
-            <div class="container-item">{{message}}</div>
+            <div class="container-item big-font">{{message}}</div>
         </section>
     `
 })
 
 export class ValidateComponent implements OnInit {
     message: string
-    constructor() { }
+    constructor(private router: Router) { }
 
     ngOnInit() {
         this.message = "Email validated. Thank you for registering our web."
+        setInterval(()=> this.router.navigate([""]), 2000) 
     }
 }

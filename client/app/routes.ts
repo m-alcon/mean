@@ -10,6 +10,8 @@ import { LogoutComponent } from "./logout/logout.component";
 import { ValidateComponent } from "./validate/validate.component";
 import { NotValidComponent } from "./errors/not-valid.component";
 import { RandomQuoteComponent } from "./random-quote/random-quote.component";
+import { ErrorComponent } from "./errors/error.component";
+import { BadRequestComponent } from "./errors/bad-request.component";
 
 
 export const appRoutes: Routes = [
@@ -23,6 +25,8 @@ export const appRoutes: Routes = [
     { path: "category", component: CategoryListComponent },
     { path: "category/:id", component: CategoryDetailComponent},
     { path: "404", component: NotFoundComponent },
-    { path: "400", component: NotValidComponent },
+    { path: "validate/error", component: NotValidComponent },
+    { path: "400", component: BadRequestComponent },
+    { path: "500", component: ErrorComponent },
     { path: "**", redirectTo: "404" }
 ]

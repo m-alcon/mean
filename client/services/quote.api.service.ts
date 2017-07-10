@@ -18,10 +18,27 @@ export class QuotesApiService {
      // private instance variable to hold base url
 
     private catchError(error) {
-        if (error.status == 401) {
-            this.router.navigate(["login"])
+        switch (error.status) {
+            case 401:
+                this.router.navigate(["404"],{skipLocationChange: true})
+                break;
+
+            case 400:
+                this.router.navigate(["400"],{skipLocationChange: true})
+                break;
+
+            case 404:
+                this.router.navigate(["404"],{skipLocationChange: true})
+                break;
+
+            case 500:
+                this.router.navigate(["500"],{skipLocationChange: true})
+                break;
+        
+            default:
+                console.log(error)
+                break;
         }
-        console.log(error)
     }
 
     private get(url: string, params?: URLSearchParams) : Promise<any> {
@@ -59,10 +76,27 @@ export class QuotesApiService {
                 this.router.navigate([""],{skipLocationChange: true})
             })
             .catch(error => {
-                if (error.status == 400) {
-                    this.router.navigate(["400"],{skipLocationChange: true})
+                switch (error.status) {
+                    case 401:
+                        this.router.navigate(["400"],{skipLocationChange: true})
+                        break;
+
+                    case 400:
+                        this.router.navigate(["validate/error"],{skipLocationChange: true})
+                        break;
+
+                    case 404:
+                        this.router.navigate(["404"],{skipLocationChange: true})
+                        break;
+
+                    case 500:
+                        this.router.navigate(["500"],{skipLocationChange: true})
+                        break;
+                
+                    default:
+                        console.log(error)
+                        break;
                 }
-                else console.log(error)
             })
     }
 
@@ -74,12 +108,7 @@ export class QuotesApiService {
         return this.http.post("/api/logout", [])
             .toPromise()
             .then(response => response.json())
-            .catch(error => {
-                if (error.status == 400) {
-                    this.router.navigate(["404"],{skipLocationChange: true})
-                }
-                else console.log(error)
-            })
+            .catch(this.catchError)
     }
 
     validate(token: string) {

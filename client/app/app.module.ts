@@ -21,6 +21,8 @@ import { AuthService } from "../services/auth.service";
 import { LogoutComponent } from "./logout/logout.component";
 import { ValidateComponent } from "./validate/validate.component";
 import { NotValidComponent } from "./errors/not-valid.component";
+import { BadRequestComponent } from "./errors/bad-request.component";
+import { ErrorComponent } from "./errors/error.component";
 
 @NgModule({
     imports: [
@@ -44,7 +46,9 @@ import { NotValidComponent } from "./errors/not-valid.component";
         SignupComponent,
         LogoutComponent,
         ValidateComponent,
-        NotValidComponent
+        NotValidComponent,
+        BadRequestComponent,
+        ErrorComponent
     ],
     providers: [
         QuotesApiService,

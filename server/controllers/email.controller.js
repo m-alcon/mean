@@ -29,13 +29,17 @@ class EmailController {
         });
     }
 
-    sendEmail(email, token) {
+    sendEmail(user, email, token) {
         let message = {
             from: 'smtpmiquel@gmail.com', // listed in rfc822 message header
             to: email, // listed in rfc822 message header
-            subject: 'Confirm your email',
-            text: `localhost:8080/api/confirm-email?token=${token}`,
-            html: `<a href="localhost:8080/api/confirm-email?token=${token}">TOKEN<a>`
+            subject: 'Movile Quotes App - Confirm your email',
+            text: `Welcome to Movie Quotes App ${user}!\n
+                Click on the link http://localhost:8080/api/confirm-email?token=${token} 
+                to validate your email.`,
+            html: `<p>Welcome to Movie Quotes App ${user}!<br><br>
+                Click <a href="http://localhost:8080/api/confirm-email?token=${token}">here</a>
+                to validate your email.</p>`
             // envelope: {
             //     from: 'Miquel <smtpmiquel@gmail.com', // used as MAIL FROM: address for SMTP
             //     to: 'miquel.1996@gmail.com, Miquel1996 <miquel.1996@gmail.com>' // used as RCPT TO: address for SMTP
