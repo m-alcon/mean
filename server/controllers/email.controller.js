@@ -38,7 +38,7 @@ class EmailController {
                 Click on the link http://moviequotesapp.herokuapp.com//api/confirm-email?token=${token} 
                 to validate your email.`,
             html: `<p>Welcome to Movie Quotes App ${user}!<br><br>
-                Click <a href="http://moviequotesapp.herokuapp.com//api/confirm-email?token=${token}>here</a>
+                Click <a href="http://moviequotesapp.herokuapp.com//api/confirm-email?token=${token}">here</a>
                 to validate your email.</p>`
             // envelope: {
             //     from: 'Miquel <smtpmiquel@gmail.com', // used as MAIL FROM: address for SMTP
