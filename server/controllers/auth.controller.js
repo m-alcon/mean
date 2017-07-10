@@ -56,7 +56,7 @@ class AuthController {
         user.save(auxUser,(error, savedUser) => {
             if (error) {
                 if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") {
-                    return httpResponse.badRequest(response, error)
+                    return response.redirect('/validate/error')
                 }
                 else return httpResponse.error(response, error)
             }
