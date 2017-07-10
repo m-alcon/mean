@@ -6,4 +6,6 @@ export class Character {
     actor: string
     movie: Movie
     quotes: Quote[]
+    movie_id: number
+    id: number
 }

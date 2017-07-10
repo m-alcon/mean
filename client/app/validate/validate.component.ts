@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { QuotesApiService } from "../../services/quote.api.service";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -11,12 +11,18 @@ import { ActivatedRoute, Router } from "@angular/router";
     `
 })
 
-export class ValidateComponent implements OnInit {
+export class ValidateComponent implements OnInit, OnDestroy {
     message: string
+    interval: any
     constructor(private router: Router) { }
 
     ngOnInit() {
         this.message = "Email validated. Thank you for registering our web."
-        setInterval(()=> this.router.navigate([""]), 2000) 
+        this.interval = setInterval(()=> this.router.navigate([""]), 2000) 
+    }
+
+    ngOnDestroy() {
+        if (this.interval)
+            clearInterval(this.interval)
     }
 }

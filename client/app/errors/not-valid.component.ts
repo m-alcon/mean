@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from "@angular/router";
 
 @Component({
@@ -11,10 +11,17 @@ import { Router } from "@angular/router";
     `
 })
 
-export class NotValidComponent implements OnInit {
+export class NotValidComponent implements OnInit, OnDestroy {
+    interval: any
+
     constructor(private router: Router) { }
 
     ngOnInit() {
-        setInterval(() => this.router.navigate(["login"]), 2000) 
+        this.interval = setInterval(() => this.router.navigate(["login"]), 2000) 
+    }
+
+    ngOnDestroy() {
+        if (this.interval)
+            clearInterval(this.interval)
     }
 }

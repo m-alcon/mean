@@ -1,6 +1,6 @@
 const categories = [
     {
-        name: "Space Opera",
+        name: "Science Fiction",
         description: "Science fiction is a genre of speculative fiction," +
         " typically dealing with imaginative concepts such as " +
         "futuristic science and technology, space travel, " +

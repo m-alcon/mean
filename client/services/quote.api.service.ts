@@ -7,6 +7,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { User } from "../models/user";
 import { Router } from "@angular/router";
+import { Movie } from "../models/movie";
+import { Character } from "../models/character";
 
 @Injectable()
 export class QuotesApiService {
@@ -141,12 +143,28 @@ export class QuotesApiService {
         return this.get("characters/" + id)
     }
 
+    getMovies() : Promise<any> {
+        return this.get("movies")
+    }
+
+    getMovie(id:string) : Promise<any> {
+        return this.get("movies/" + id)
+    }
+
     postQuote(quote:Quote) {
         return this.post("quotes",quote)
     }
 
     putQuote(quote:Quote) {
         this.put("quotes/" + quote.id, quote)
+    }
+
+    postCharacter(character:Character) {
+        return this.post("characters",character)
+    }
+    
+    postMovie(movie:Movie) {
+        return this.post("movies",movie)
     }
 
 }

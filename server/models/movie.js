@@ -8,7 +8,7 @@ class Movie {
             },
             director: {
                 type: "text",
-                required: true
+                required: false
             },
             year: {
                 type: "integer",

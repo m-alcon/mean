@@ -14,7 +14,7 @@ import { LoginComponent } from "./login/login.component";
 import { NotFoundComponent } from "./errors/not-found.component"
 import { SignupComponent } from "./signup/signup.component";
 import { QuoteListComponent } from "./quote-list/quote-list.component";
-import { QuoteDetailComponent } from "./quote-detail/quote-detail.component";
+import { QuoteDetailComponent } from "./random-quote/quote-detail.component";
 import { NavBarComponent } from "./nav-bar/nav-bar.component";
 import { QuoteFormComponent } from "./quote-list/quote-form.component";
 import { AuthService } from "../services/auth.service";

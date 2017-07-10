@@ -16,7 +16,14 @@ import { Quote } from "../../models/quote"
                     >
                         shuffle
                     </i>
-                    <p *ngIf="randomQuote" class="quote-character">{{randomQuote.character?.name}}</p>
+                    <i 
+                        class="material-icons view-button"
+                        routerLink="quote-detail/{{randomQuote?.id}}"
+                    >
+                        remove_red_eye
+                    </i>
+                    <p *ngIf="randomQuote&&randomQuote.character" 
+                        class="quote-character">{{randomQuote.character.name}}</p>
                 </div>
             </div>
             

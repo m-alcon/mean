@@ -17,7 +17,7 @@ class Character {
 
     associate (db) {
         let {character,movie} = db.models
-        character.hasOne("movie", movie)
+        character.hasOne("movie", movie, {autoFetch: true, reverse: "character"})
     }
 }
 

@@ -51,19 +51,17 @@ class AuthController {
                 valid: "1"
             }
         } catch (error) {
-            response.redirect('http://localhost:8080/404')
-            return httpResponse.error(response, error)
+            return httpResponse.notFound(response, error)
         }
         user.save(auxUser,(error, savedUser) => {
             if (error) {
-                response.redirect('http://localhost:8080/404')
                 if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") {
                     return httpResponse.badRequest(response, error)
                 }
                 else return httpResponse.error(response, error)
             }
             else {
-                return response.redirect('http://localhost:8080/validate')
+                return response.redirect('/validate')
             }
         })
     }
