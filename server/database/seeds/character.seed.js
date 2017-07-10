@@ -1,27 +1,27 @@
 const characters = [
     {
         name: "Admiral Ackbar",
-        actor: "",
+        actor: "Erik Bauersfeld",
         movie_id: 3
     },
     {
         name: "Master Yoda",
-        actor: "",
+        actor: "Frank Oz",
         movie_id: 3
     },
     {
         name: "Princess Leia",
-        actor: "",
+        actor: "Carrie Fisher",
         movie_id: 1
     },
     {
         name: "Darth Vader",
-        actor: "",
+        actor: "James Earl Jones",
         movie_id: 2
     },
     {
         name: "Gandalf",
-        actor: "",
+        actor: "Ian McKellen",
         movie_id: 4
     }
 ]
