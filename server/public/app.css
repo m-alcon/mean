@@ -73,7 +73,7 @@ input.ng-dirty.ng-valid {
   line-height: 54px;
 }
 .guion-list li:before {
-  content: '-';
+  content: '- ';
 }
 .spaced-list {
   text-align: center;
@@ -368,23 +368,35 @@ input.ng-dirty.ng-valid {
 .shuffle-button:focus {
   outline: none;
 }
+.view-button {
+  font-size: 4em;
+  color: #93b5aa !important;
+  font-size: 2em;
+  margin: auto 0;
+  margin-left: 3%;
+}
+.view-button:hover {
+  cursor: pointer;
+  color: #927a8b !important;
+}
+.view-button:focus {
+  outline: none;
+}
 main-app {
   font-family: Verdana;
   position: absolute;
   width: 100%;
   height: 100%;
 }
-main-app .full-page-loader.material-icons {
-  position: fixed;
-  top: 0;
-  left: 0;
+main-app .full-page-loader {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+}
+main-app .loader.material-icons {
   font-size: 60px;
   text-align: center;
-  line-height: 100vh;
   animation: spin 1s linear infinite;
+  margin: auto;
 }
 random-quote h1.container-item.text-center {
   font-size: 3em;
@@ -401,6 +413,12 @@ random-quote .flex-item-quote.container-item {
 }
 random-quote .big-font {
   text-align: justify;
+}
+quote-detail h1 {
+  text-align: justify;
+}
+quote-detail label {
+  color: #93b5aa;
 }
 .category-list-component {
   font-size: 2em;
@@ -499,23 +517,5 @@ nav-bar .close-button:hover {
 @media only screen and (max-width: 500px) {
   html {
     font-size: 10px;
-  }
-  nav-bar .nav-container {
-    width: 70%;
-  }
-  .form-box {
-    width: 65%;
-  }
-  .form-box-popup {
-    width: 65%;
-    max-height: 80%;
-    height: 100%;
-  }
-  .container {
-    width: 70%;
-  }
-  random-quote h1 {
-    font-size: 3em;
-    text-align: center;
   }
 }
