@@ -144,7 +144,7 @@ import { Movie } from "../../models/movie";
                 <div class="little-font" *ngIf="mdir?.invalid && mdir?.dirty">
                     This field is obligatory (at most 50 characters)
                 </div>
-                <div class="form-content" *ngIf="newMovie&&quote.character.movie"><label>Director</label>
+                <div class="form-content" *ngIf="newMovie&&quote.character.movie"><label>Year</label>
                     <input class="form-text-input"
                         type="number"
                         [(ngModel)] ="quote.character.movie.year"
