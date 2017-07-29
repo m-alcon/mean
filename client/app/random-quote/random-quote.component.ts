@@ -5,7 +5,7 @@ import { Quote } from "../../models/quote"
 @Component({
     selector: "random-quote",
     template: `
-        <section class="container">
+        <section class="random-quote-component container">
             <h1 class="container-item text-center">Welcome to Movie Quotes App</h1>
             <div class="flex-item-quote container-item">
                 <div *ngIf="randomQuote" class="container-quote"><h2 class="quote-text container-item">"{{randomQuote.text}}"</h2></div>
@@ -26,7 +26,6 @@ import { Quote } from "../../models/quote"
                         class="quote-character">{{randomQuote.character.name}}</p>
                 </div>
             </div>
-            
         </section>
     `,
 })

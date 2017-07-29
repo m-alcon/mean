@@ -1,4 +1,4 @@
-import { Injectable }     from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { Quote } from "../models/quote"
@@ -9,38 +9,19 @@ import { User } from "../models/user";
 import { Router } from "@angular/router";
 import { Movie } from "../models/movie";
 import { Character } from "../models/character";
+import { LoginComponent } from "../app/login/login.component";
 
 @Injectable()
 export class QuotesApiService {
      // Resolve HTTP using the constructor
+
      constructor (
         private http: Http,
         private router: Router
     ) {}
-     // private instance variable to hold base url
 
     private catchError(error) {
-        switch (error.status) {
-            case 401:
-                this.router.navigate(["404"],{skipLocationChange: true})
-                break;
-
-            case 400:
-                this.router.navigate(["400"],{skipLocationChange: true})
-                break;
-
-            case 404:
-                this.router.navigate(["404"],{skipLocationChange: true})
-                break;
-
-            case 500:
-                this.router.navigate(["500"],{skipLocationChange: true})
-                break;
-        
-            default:
-                console.log(error)
-                break;
-        }
+        this.router.navigate([`error/${error.status}`],{skipLocationChange: true})
     }
 
     private get(url: string, params?: URLSearchParams) : Promise<any> {
@@ -75,30 +56,14 @@ export class QuotesApiService {
             .toPromise()
             .then(response => {
                 response.json()
-                this.router.navigate([""],{skipLocationChange: true})
+                this.router.navigate(["quote"],{skipLocationChange: true})
             })
             .catch(error => {
-                switch (error.status) {
-                    case 401:
-                        this.router.navigate(["400"],{skipLocationChange: true})
-                        break;
-
-                    case 400:
-                        this.router.navigate(["validate/error"],{skipLocationChange: true})
-                        break;
-
-                    case 404:
-                        this.router.navigate(["404"],{skipLocationChange: true})
-                        break;
-
-                    case 500:
-                        this.router.navigate(["500"],{skipLocationChange: true})
-                        break;
-                
-                    default:
-                        console.log(error)
-                        break;
-                }
+                if (error.status == 400)
+                    //this.router.navigate(["error/not-valid"],{skipLocationChange: true})
+                else if (error.status == 401)
+                    //this.router.navigate(["error/not-correct"],{skipLocationChange: true})
+                else this.catchError(error)
             })
     }
 
@@ -107,10 +72,7 @@ export class QuotesApiService {
     }
 
     logout() {
-        return this.http.post("/api/logout", [])
-            .toPromise()
-            .then(response => response.json())
-            .catch(this.catchError)
+        return this.post("logout", [])
     }
 
     validate(token: string) {

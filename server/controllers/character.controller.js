@@ -1,57 +1,72 @@
-const   database = require("../database/database")
+const   database = require("../database/database"),
+        httpResponse = require ("../utils/http-response"),
+        modelManager = require ("../utils/model-manager")
 
 class CharacterController {
     async getAll (request, response, next) {
         try {
-            response.json(await database.crud("character", "find"))
+            let find = await database.crud("character", "find")
+            httpResponse.ok(response, find)
         } catch (error) {
-            response.json(error)
+            httpResponse.error(response, error)
         }
     }
 
     async getSingle (request, response, next) {
         let {id} = request.params
         try {
-            response.json(await database.crud("character", "get", id))
+            let get = await database.crud("character", "get", id)
+            httpResponse.ok(response, get)
         } catch (error) {
-            response.status(404).json(error)
+            httpResponse.notFound(response, error)
         }
     }
 
     async create (request, response, next) {
         let userCharacter = request.body
         try {
-            response.json(await database.crud("character", "create", userCharacter))
+            let create = await database.crud("character", "create", userCharacter)
+            httpResponse.ok(response, create)
         } catch (error) {
-            response.status(500).json(error)
+            httpResponse.error(response, error)
         }
     }
     
     async update (request, response, next) {
         let {id} = request.params,
-            userCharacter = request.body
+            userCharacter = request.body,
+            character
         try {
-            var character = await database.crud("character", "get", id)
+            character = await database.crud("character", "get", id)
         } catch (error) {
-            response.status(404).json(error)
+            httpResponse.notFound(response, error)
         }
-        character.save(userCharacter,(error,savedMovie) => {
-            if (error) response.status(500).json(error)
-            else response.json(savedMovie)
-        })
+        let save = modelManager.save(character,userCharacter)
+        try {
+            await save()
+            httpResponse.ok(response)
+        } catch (error) {
+            if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") 
+                httpResponse.badRequest(response, error)
+            else httpResponse.error(response, error)
+        }
     }
 
     async remove (request, response, next) {
-        let {id} = request.params
+        let {id} = request.params,
+            character
         try {
-            var character = await database.crud("character", "get", id)
+            character = await database.crud("character", "get", id)
         } catch (error) {
-            response.status(404).json(error)
+            httpResponse.notFound(response, error)
         }
-        character.remove((error,deletedMovie) => {
-            if (error) response.status(500).json(error)
-            else response.json(deletedMovie)
-        })
+        let rmv = modelManager.remove(character)
+        try {
+            let deletedCharacter = await rmv()
+            httpResponse.ok(response, deletedCharacter)
+        } catch (error) {
+            httpResponse.error(response, error)
+        }
     }
 }
 

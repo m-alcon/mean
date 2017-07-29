@@ -7,7 +7,7 @@ import { Quote } from "../../models/quote";
 @Component({
     selector: 'quote-detail',
     template: `
-    <section class="container" *ngIf="quote">
+    <section class="container quote-detail-component" *ngIf="quote">
         <div class="container-item">
             <h1>"{{ quote.text }}"</h1>
             <ul class="guion-list">

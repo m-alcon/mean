@@ -5,7 +5,7 @@ const   bcrypt = require ("bcrypt-nodejs"),
 
 const   database = require ("../database/database"),
         httpResponse = require ("../utils/http-response"),
-        mail = require("./email.controller")
+        mail = require("../utils/email-manager")
         
 
 let _generateToken = email => {
@@ -20,7 +20,7 @@ class AuthController {
     async signup (request, response) {
         let {email, password, username} = request.body
         try {
-            let token = _generateToken(email)
+            let token = _generateToken(username)
             let user = await database.crud("user", "create", {
                 email: email,
                 password: password,
@@ -40,11 +40,13 @@ class AuthController {
     }
 
     async validate (request, response) {
-        let {token} = request.query
+        let {token} = request.query,
+            auxUser,
+            user
         try {
             let users = await database.crud("user","find", {valid: token})
-            var user = users[0]
-            var auxUser = {
+            user = users[0]
+            auxUser = {
                 username: user.username,
                 password: user.password,
                 email: user.email,
@@ -56,19 +58,19 @@ class AuthController {
         user.save(auxUser,(error, savedUser) => {
             if (error) {
                 if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") {
-                    return response.redirect('/validate/error')
+                    return httpResponse.badRequest(response, error)
                 }
                 else return httpResponse.error(response, error)
             }
             else {
-                return response.redirect('/validate')
+                return httpResponse.ok(response, error)
             }
         })
     }
 
     async login (request, response) {
-
-        let {username, email, password} = request.body
+        let {username, email, password} = request.body,
+            user
         try {
             let users = await database.crud("user","find", {username})
             if (!users.length) {
@@ -82,7 +84,7 @@ class AuthController {
                 if (user.valid === "1") {
                     let token = _generateToken(user.email)
                     response.cookie("api-token", token)
-                    httpResponse.ok(response, {token: token })
+                    return httpResponse.ok(response, {token: token })
                 }
                 else {
                     return httpResponse.badRequest(response,"Not confirmed email.")

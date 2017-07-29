@@ -3,7 +3,7 @@ import { CategoryListComponent } from "./category-list/category-list.component"
 import { CategoryDetailComponent } from "./category-detail/category-detail.component"
 import { NotFoundComponent } from "./errors/not-found.component"
 import { QuoteListComponent } from "./quote-list/quote-list.component";
-import { QuoteDetailComponent } from "./random-quote/quote-detail.component";
+import { QuoteDetailComponent } from "./quote-detail/quote-detail.component";
 import { LoginComponent } from "./login/login.component";
 import { SignupComponent } from "./signup/signup.component";
 import { LogoutComponent } from "./logout/logout.component";
@@ -12,6 +12,8 @@ import { NotValidComponent } from "./errors/not-valid.component";
 import { RandomQuoteComponent } from "./random-quote/random-quote.component";
 import { ErrorComponent } from "./errors/error.component";
 import { BadRequestComponent } from "./errors/bad-request.component";
+import { UnauthorizedComponent } from "./errors/unauthorized.component";
+import { NotCorrectComponent } from "./errors/not-correct.component";
 
 
 export const appRoutes: Routes = [
@@ -25,9 +27,11 @@ export const appRoutes: Routes = [
     { path: "quote/:id", component: QuoteDetailComponent },
     { path: "category", component: CategoryListComponent },
     { path: "category/:id", component: CategoryDetailComponent},
-    { path: "404", component: NotFoundComponent },
-    { path: "validate/error", component: NotValidComponent },
-    { path: "400", component: BadRequestComponent },
-    { path: "500", component: ErrorComponent },
-    { path: "**", redirectTo: "404" }
+    { path: "error/not-valid", component: NotValidComponent },
+    { path: "error/not-correct", component: NotCorrectComponent },
+    { path: "error/400", component: BadRequestComponent },
+    { path: "error/401", component: UnauthorizedComponent },
+    { path: "error/404", component: NotFoundComponent },
+    { path: "error/500", component: ErrorComponent },
+    { path: "**", redirectTo: "error/404" }
 ]

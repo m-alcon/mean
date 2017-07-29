@@ -2,16 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from "@angular/router";
 
 @Component({
-    selector: 'not-valid',
+    selector: 'not-correct',
     template: `
         <section class="container">
-            <div class="container-item big-font">Your email has not confirmed yet.</div>
+            <div class="container-item big-font">The email or the password are not correct.</div>
         </section>
         
     `
 })
 
-export class NotValidComponent implements OnInit, OnDestroy {
+export class NotCorrectComponent implements OnInit, OnDestroy {
     timeout: any
 
     constructor(private router: Router) { }

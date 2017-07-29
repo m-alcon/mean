@@ -9,8 +9,8 @@ import { Movie } from "../../models/movie";
 @Component({
     selector: 'quote-form',
     template: `
-    <div class="overlay" *ngIf="isActive">
-        <section class="form-box-popup">
+    <section class="overlay quote-form-component" *ngIf="isActive">
+        <div class="form-box-popup">
             <i class="material-icons close-button" (click)="close()">close</i>
             <form (ngSubmit)="onSubmit()" #quoteForm="ngForm">
                 <div class="form-content"><label>Text</label>
@@ -165,8 +165,8 @@ import { Movie } from "../../models/movie";
                         [class.inactive]="quoteForm.form.invalid">
                 </div>
             </form>
-        </section>
-    </div>
+        </div>
+    </section>
     `
 })
 
@@ -221,9 +221,10 @@ export class QuoteFormComponent {
                 delete this.quote.character.movie
                 this.quote.character.movie_id = this.movies[this.quote.character.movie_id - 1].id
             }
+            let characterSave
             if (this.newCharacter) {
                 await this.api.postCharacter(this.quote.character)
-                var characterSave = this.quote.character
+                characterSave = this.quote.character
                 delete this.quote.character
                 this.quote.character_id = this.characters.length + 1
             }

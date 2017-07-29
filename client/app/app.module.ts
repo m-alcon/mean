@@ -14,7 +14,7 @@ import { LoginComponent } from "./login/login.component";
 import { NotFoundComponent } from "./errors/not-found.component"
 import { SignupComponent } from "./signup/signup.component";
 import { QuoteListComponent } from "./quote-list/quote-list.component";
-import { QuoteDetailComponent } from "./random-quote/quote-detail.component";
+import { QuoteDetailComponent } from "./quote-detail/quote-detail.component";
 import { NavBarComponent } from "./nav-bar/nav-bar.component";
 import { QuoteFormComponent } from "./quote-list/quote-form.component";
 import { AuthService } from "../services/auth.service";
@@ -23,6 +23,8 @@ import { ValidateComponent } from "./validate/validate.component";
 import { NotValidComponent } from "./errors/not-valid.component";
 import { BadRequestComponent } from "./errors/bad-request.component";
 import { ErrorComponent } from "./errors/error.component";
+import { UnauthorizedComponent } from "./errors/unauthorized.component";
+import { NotCorrectComponent } from "./errors/not-correct.component";
 
 @NgModule({
     imports: [
@@ -48,7 +50,9 @@ import { ErrorComponent } from "./errors/error.component";
         ValidateComponent,
         NotValidComponent,
         BadRequestComponent,
-        ErrorComponent
+        ErrorComponent,
+        UnauthorizedComponent,
+        NotCorrectComponent
     ],
     providers: [
         QuotesApiService,

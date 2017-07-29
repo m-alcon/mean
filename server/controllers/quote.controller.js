@@ -1,5 +1,6 @@
 const   database = require ("../database/database"),
-        httpResponse = require ("../utils/http-response")
+        httpResponse = require ("../utils/http-response"),
+        modelManager = require ("../utils/model-manager")
 
 class QuoteController {
     async getAll (request, response, next) {
@@ -35,8 +36,8 @@ class QuoteController {
         delete userQuote.category
         delete userQuote.character
         try {
-            httpResponse.ok(response, 
-                await database.crud("quote", "create", userQuote))
+            let create = await database.crud("quote", "create", userQuote)
+            httpResponse.ok(response, create)
         } catch (error) {
             if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") 
                 httpResponse.badRequest(response, error)
@@ -46,38 +47,45 @@ class QuoteController {
     
     async update (request, response, next) {
         let {id} = request.params,
-            userQuote = request.body
+            userQuote = request.body,
+            quote
         delete userQuote.id
         delete userQuote.category
         delete userQuote.character
         try {
-            var quote = await database.crud("quote", "get", id)
+            quote = await database.crud("quote", "get", id)
         } catch (error) {
-            response.status(404).json(error)
+            httpResponse.notFound(response, error)
         }
-        quote.save(userQuote,(error, savedQuote) => {
-            if (error) {
-                if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") 
-                    httpResponse.badRequest(response, error)
-                else httpResponse.error(response, error)
-            }
-            else httpResponse.ok(response, savedQuote)
-        })
-    }
 
-    async remove (request, response, next) {
-        let {id} = request.params
+        let save = modelManager.save(quote,userQuote)
         try {
-            var quote = database.crud("quote", "get", id)
+            await save()
+            httpResponse.ok(response)
         } catch (error) {
             if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") 
                 httpResponse.badRequest(response, error)
             else httpResponse.error(response, error)
         }
-        quote.remove((err,deletedQuote) => {
-            if (err) response.status(500).json(err)
-            else response.json(deletedQuote)
-        })
+    }
+
+    async remove (request, response, next) {
+        let {id} = request.params,
+            quote
+        try {
+            quote = database.crud("quote", "get", id)
+        } catch (error) {
+            if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") 
+                httpResponse.badRequest(response, error)
+            else httpResponse.error(response, error)
+        }
+        let rmv = modelManager.remove(quote)
+        try {
+            let deletedQuote = await rmv()
+            httpResponse.ok(response, deletedQuote)
+        } catch (error) {
+            httpResponse.error(response, error)
+        }
     }
 }
 

@@ -1,9 +1,12 @@
-const   database = require("../database/database")
+const   database = require("../database/database"),
+        httpResponse = require ("../utils/http-response"),
+        modelManager = require ("../utils/model-manager")
 
 class CategoryController {
     async getAll (request, response, next) {
         try {
-            response.json(await database.crud("category", "find"))
+            let find = await database.crud("category", "find")
+            httpResponse.ok(response, find)
         } catch (error) {
             response.json(error)
         }
@@ -12,46 +15,58 @@ class CategoryController {
     async getSingle (request, response, next) {
         let {id} = request.params
         try {
-            response.json(await database.crud("category", "get", id))
+            let get = await database.crud("category", "get", id)
+            httpResponse.ok(response, get)
         } catch (error) {
-            response.status(404).json(error)
+            httpResponse.notFound(response, error)
         }
     }
 
     async create (request, response, next) {
         let userCategory = request.body
         try {
-            response.json(await database.crud("category", "create", userCategory))
+            let create = await database.crud("category", "create", userCategory)
+            httpResponse.ok(response, create)
         } catch (error) {
-            response.status(500).json(error)
+            httpResponse.error(response, error)
         }
     }
     
     async update (request, response, next) {
         let {id} = request.params,
-            userCategory = request.body
+            userCategory = request.body,
+            category
         try {
-            var category = await database.crud("category", "get", id)
+            category = await database.crud("category", "get", id)
         } catch (error) {
-            response.status(404).json(error)
+            httpResponse.notFound(response, error)
         }
-        category.save(userCategory,(error,savedMovie) => {
-            if (error) response.status(500).json(error)
-            else response.json(savedMovie)
-        })
+        let save = modelManager.save(category,userCategory)
+        try {
+            await save()
+            httpResponse.ok(response)
+        } catch (error) {
+            if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") 
+                httpResponse.badRequest(response, error)
+            else httpResponse.error(response, error)
+        }
     }
 
     async remove (request, response, next) {
-        let {id} = request.params
+        let {id} = request.params,
+            category
         try {
-            var category = await database.crud("category", "get", id)
+            category = await database.crud("category", "get", id)
         } catch (error) {
-            response.status(404).json(error)
+            httpResponse.notFound(response, error)
         }
-        category.remove((error,deletedMovie) => {
-            if (error) response.status(500).json(error)
-            else response.json(deletedMovie)
-        })
+        let rmv = modelManager.remove(category)
+        try {
+            let deletedCategory = await rmv()
+            httpResponse.ok(response, deletedCategory)
+        } catch (error) {
+            httpResponse.error(response, error)
+        }
     }
 }
 

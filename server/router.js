@@ -1,10 +1,11 @@
 const   express = require("express")
 
-const   quoteController = require("./controllers/quote.controller")
-        movieController = require("./controllers/movie.controller")
-        categoryController = require("./controllers/category.controller")
-        characterController = require("./controllers/character.controller")
-        authController = require("./controllers/auth.controller")
+const   controllers = require("./controllers")
+        // controllers.quote = require("./controllers/quote.controller")
+        // controllers.movie = require("./controllers/movie.controller")
+        // controllers.category = require("./controllers/category.controller")
+        // controllers.character = require("./controllers/character.controller")
+        // controllers.auth = require("./controllers/auth.controller")
 
 class Router {
     
@@ -17,46 +18,46 @@ class Router {
         /*
             AUTH
         */
-        this.router.post("/login", authController.login)
-        this.router.post("/signup", authController.signup)
-        this.router.post("/logout", authController.logout)
-        this.router.get("/confirm-email", authController.validate)
+        this.router.post("/login", controllers.auth.login)
+        this.router.post("/signup", controllers.auth.signup)
+        this.router.post("/logout", controllers.auth.logout)
+        this.router.get("/confirm-email", controllers.auth.validate)
 
         this.router.route("/quotes/:id")
-            .get(/*authController.authenticate, */quoteController.getSingle)
-            .put(authController.authenticate, quoteController.update)
-            .delete(authController.authenticate, quoteController.remove)
+            .get(/*controllers.auth.authenticate, */controllers.quote.getSingle)
+            .put(controllers.auth.authenticate, controllers.quote.update)
+            .delete(controllers.auth.authenticate, controllers.quote.remove)
 
         this.router.route("/quotes")
-            .get(/*authController.authenticate, */quoteController.getAll)
-            .post(authController.authenticate, quoteController.create)   
+            .get(/*controllers.auth.authenticate, */controllers.quote.getAll)
+            .post(controllers.auth.authenticate, controllers.quote.create)   
 
         this.router.route("/movies/:id")
-            .get(/*authController.authenticate, */movieController.getSingle)
-            .put(authController.authenticate, movieController.update)
-            .delete(authController.authenticate, movieController.remove)
+            .get(/*controllers.auth.authenticate, */controllers.movie.getSingle)
+            .put(controllers.auth.authenticate, controllers.movie.update)
+            .delete(controllers.auth.authenticate, controllers.movie.remove)
 
         this.router.route("/movies")
-            .get(/*authController.authenticate, */movieController.getAll)
-            .post(authController.authenticate, movieController.create)
+            .get(/*controllers.auth.authenticate, */controllers.movie.getAll)
+            .post(controllers.auth.authenticate, controllers.movie.create)
 
         this.router.route("/categories/:id")
-            .get(/*authController.authenticate, */categoryController.getSingle)
-            .put(authController.authenticate, categoryController.update)
-            .delete(authController.authenticate, categoryController.remove)
+            .get(/*controllers.auth.authenticate, */controllers.category.getSingle)
+            .put(controllers.auth.authenticate, controllers.category.update)
+            .delete(controllers.auth.authenticate, controllers.category.remove)
 
         this.router.route("/categories")
-            .get(/*authController.authenticate, */categoryController.getAll)
-            .post(authController.authenticate, categoryController.create)
+            .get(/*controllers.auth.authenticate, */controllers.category.getAll)
+            .post(controllers.auth.authenticate, controllers.category.create)
 
         this.router.route("/characters/:id")
-            .get(/*authController.authenticate, */characterController.getSingle)
-            .put(authController.authenticate, characterController.update)
-            .delete(authController.authenticate, characterController.remove)
+            .get(/*controllers.auth.authenticate, */controllers.character.getSingle)
+            .put(controllers.auth.authenticate, controllers.character.update)
+            .delete(controllers.auth.authenticate, controllers.character.remove)
 
         this.router.route("/characters")
-            .get(/*authController.authenticate, */characterController.getAll)
-            .post(authController.authenticate, characterController.create)      
+            .get(/*controllers.auth.authenticate, */controllers.character.getAll)
+            .post(controllers.auth.authenticate, controllers.character.create)      
     }
 }
 

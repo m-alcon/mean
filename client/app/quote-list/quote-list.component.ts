@@ -7,32 +7,33 @@ import { AuthService } from "../../services/auth.service";
 @Component({
     selector: 'quote-list',
     template: `
-        <section class="container first-margin">
-            <div class="container-item">
-                <div class="flex-item">
-                    <button 
-                        class="add-button" 
-                        (click)="onAddQuote()"
-                        *ngIf="isLogged"
-                        >+ Add Quote
-                    </button>
-                </div>
-                <div class="flex-item-quote"
-                    *ngFor="let quote of quotes">
-                    <div class="container-quote"><h2 class="quote-text container-item">"{{quote.text}}"</h2></div>
-                    <div class="quote-footer">
-                        <i 
-                            class="material-icons edit-button"
-                            (click)="onEditQuote(quote.id)"
+        <section class="quote-list-component">
+            <div class="container first-margin">
+                <div class="container-item">
+                    <div class="flex-item">
+                        <button 
+                            class="add-button" 
+                            (click)="onAddQuote()"
                             *ngIf="isLogged"
-                        >
-                            mode_edit
-                        </i>
-                        <p class="quote-character">{{quote.character?.name}}</p>
+                            >+ Add Quote
+                        </button>
                     </div>
-                </div>
+                    <div class="flex-item-quote"
+                        *ngFor="let quote of quotes">
+                        <div class="container-quote"><h2 class="quote-text container-item">"{{quote.text}}"</h2></div>
+                        <div class="quote-footer">
+                            <i 
+                                class="material-icons edit-button"
+                                (click)="onEditQuote(quote.id)"
+                                *ngIf="isLogged"
+                            >
+                                mode_edit
+                            </i>
+                            <p class="quote-character">{{quote.character?.name}}</p>
+                        </div>
+                    </div>
+                </div>   
             </div>
-            
         </section>
         <quote-form 
             #quoteForm

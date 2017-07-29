@@ -10,6 +10,9 @@ import { AuthService } from "../../services/auth.service";
         <section class="login-component">
             <form  (ngSubmit)="onSendLogin()" class="form-box" #loginForm="ngForm">
                 <h1 class="text.center">Log in</h1>
+                <div *ngIf="message" class="error-message">
+                    {{message}}
+                </div>
                 <label class="form-content">Username or Email</label>
                 <input 
                     class="form-text-input"
@@ -51,6 +54,7 @@ import { AuthService } from "../../services/auth.service";
 
 export class LoginComponent implements OnInit {
     user: User
+    message: string;
 
     constructor(
         private api: QuotesApiService,
@@ -71,5 +75,15 @@ export class LoginComponent implements OnInit {
             console.log(error)
         }
        
+    }
+
+    onNotValid () {
+        console.log("VALID")
+        this.message = "Your email has not confirmed yet."
+    }
+
+    onNotCorrect () {
+        console.log("CORRECT")
+        this.message = "The email or the password are not correct."
     }
 }

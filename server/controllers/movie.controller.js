@@ -1,57 +1,72 @@
 const   database = require("../database/database")
+        httpResponse = require ("../utils/http-response"),
+        modelManager = require ("../utils/model-manager")
 
 class MovieController {
     async getAll (request, response, next) {
         try {
-            response.json(await database.crud("movie", "find"))
+            let find = await database.crud("movie", "find")
+            httpResponse.ok(response, find)
         } catch (error) {
-            response.json(error)
+            httpResponse.error(response, error)
         }
     }
 
     async getSingle (request, response, next) {
         let {id} = request.params
         try {
-            response.json(await database.crud("movie", "get", id))
+           let get = await database.crud("movie", "get", id)
+           httpResponse.ok(response, get)
         } catch (error) {
-            response.status(404).json(error)
+            httpResponse.notFound(response, error)
         }
     }
 
     async create (request, response, next) {
         let userMovie = request.body
         try {
-            response.json(await database.crud("movie", "create", userMovie))
+            let create = await database.crud("movie", "create", userMovie)
+            httpResponse.ok(response, create)
         } catch (error) {
-            response.status(500).json(error)
+            httpResponse.error(response, error)
         }
     }
     
     async update (request, response, next) {
         let {id} = request.params,
-            userMovie = request.body
+            userMovie = request.body,
+            movie
         try {
-            var movie = await database.crud("movie", "get", id)
+            movie = await database.crud("movie", "get", id)
         } catch (error) {
-            response.status(404).json(error)
+            httpResponse.notFound(response, error)
         }
-        movie.save(userMovie,(error,savedMovie) => {
-            if (error) response.status(500).json(error)
-            else response.json(savedMovie)
-        })
+        let save = modelManager.promisify(movie,userMovie)
+        try {
+            await save()
+            httpResponse.ok(response)
+        } catch (error) {
+            if (error.type == "validation" || error.code == "ER_BAD_FIELD_ERROR") 
+                httpResponse.badRequest(response, error)
+            else httpResponse.error(response, error)
+        }
     }
 
     async remove (request, response, next) {
-        let {id} = request.params
+        let {id} = request.params,
+            movie
         try {
-            var movie = await database.crud("movie", "get", id)
+            movie = await database.crud("movie", "get", id)
         } catch (error) {
-            response.status(404).json(error)
+            httpResponse.notFound(response, error)
         }
-        movie.remove((error,deletedMovie) => {
-            if (error) response.status(500).json(error)
-            else response.json(deletedMovie)
-        })
+       let rmv = modelManager.remove(movie)
+        try {
+            let deletedMovie = await rmv()
+            httpResponse.ok(response, deletedMovie)
+        } catch (error) {
+            httpResponse.error(response, error)
+        }
     }
 }
 
