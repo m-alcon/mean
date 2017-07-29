@@ -18,7 +18,7 @@ export class ValidateComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.message = "Email validated. Thank you for registering our web."
-        this.interval = setInterval(()=> this.router.navigate([""]), 2000) 
+        this.interval = setInterval(()=> this.router.navigate(["login"]), 2000) 
     }
 
     ngOnDestroy() {
