@@ -63,7 +63,7 @@ class AuthController {
                 else return httpResponse.error(response, error)
             }
             else {
-                return httpResponse.ok(response, error)
+                return response.redirect("http://moviequotesapp.herokuapp.com/validate")
             }
         })
     }
