@@ -200,6 +200,9 @@ input.ng-dirty.ng-valid {
 .big-font {
   font-size: 24px;
 }
+.error-message {
+  color: #ff9696;
+}
 .button {
   font-size: 16px;
   background-color: #252d37;
@@ -382,75 +385,76 @@ input.ng-dirty.ng-valid {
 .view-button:focus {
   outline: none;
 }
-main-app {
+.main-app-component {
   font-family: Verdana;
   position: absolute;
   width: 100%;
   height: 100%;
 }
-main-app .full-page-loader {
+.main-app-component .full-page-loader {
   width: 100%;
   height: 100%;
 }
-main-app .loader.material-icons {
+.main-app-component .loader.material-icons {
   font-size: 60px;
   text-align: center;
   animation: spin 1s linear infinite;
   margin: auto;
 }
-random-quote h1.container-item.text-center {
+.random-quote-component h1.container-item.text-center {
   font-size: 3em;
   line-height: 2em;
   top: 15%;
   margin-bottom: 5%;
 }
-random-quote div {
+.random-quote-component div {
   line-height: 40px;
 }
-random-quote .flex-item-quote.container-item {
+.random-quote-component .flex-item-quote.container-item {
   margin-top: 0;
   width: 100%;
 }
-random-quote .big-font {
+.random-quote-component .big-font {
   text-align: justify;
 }
-quote-detail h1 {
+.quote-detail-component h1 {
   text-align: justify;
 }
-quote-detail label {
+.quote-detail-component label {
   color: #93b5aa;
 }
 .category-list-component {
   font-size: 2em;
 }
-quote-list {
-  width: 40%;
+.quote-list-component {
+  width: 100%;
+  margin: auto;
 }
-quote-list .flex-item-quote {
+.quote-list-component .flex-item-quote {
   margin: 5% auto;
   width: 100%;
   line-height: 48px;
 }
-quote-form {
+.quote-form-component {
   color: #454854;
 }
-quote-form .form-box-popup {
+.quote-form-component .form-box-popup {
   background-color: #93b5aa;
   color: #454854;
 }
-quote-form textarea {
+.quote-form-component textarea {
   margin-top: 10px;
   padding-bottom: 0px !important;
   height: 60px;
 }
-quote-form select {
+.quote-form-component select {
   width: 100%;
 }
-quote-form .close-button {
+.quote-form-component .close-button {
   color: #454854;
   transform: translateX(30px) translateY(-30px);
 }
-nav-bar .nav-container {
+.nav-bar-component .nav-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -466,35 +470,35 @@ nav-bar .nav-container {
   transition: left 1s linear;
   font-size: 2em;
 }
-nav-bar nav {
+.nav-bar-component nav {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-nav-bar nav li {
+.nav-bar-component nav li {
   width: 100%;
   line-height: 1.8em;
   text-align: center;
   margin: 45% 0px;
 }
-nav-bar a {
+.nav-bar-component a {
   color: #454854;
 }
-nav-bar a:visited {
+.nav-bar-component a:visited {
   color: #454854;
 }
-nav-bar a:hover {
+.nav-bar-component a:hover {
   color: transparent !important;
 }
-nav-bar .close-button {
+.nav-bar-component .close-button {
   margin: 2%;
   color: #454854;
 }
-nav-bar .close-button:hover {
+.nav-bar-component .close-button:hover {
   color: transparent;
 }
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 992px) {
   nav-bar .nav-container {
     width: 70%;
   }
@@ -514,7 +518,7 @@ nav-bar .close-button:hover {
     text-align: center;
   }
 }
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 576px) {
   html {
     font-size: 10px;
   }

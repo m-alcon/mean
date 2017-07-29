@@ -60,9 +60,9 @@ export class QuotesApiService {
             })
             .catch(error => {
                 if (error.status == 400)
-                    //this.router.navigate(["error/not-valid"],{skipLocationChange: true})
+                    this.router.navigate(["error/not-valid"],{skipLocationChange: true})
                 else if (error.status == 401)
-                    //this.router.navigate(["error/not-correct"],{skipLocationChange: true})
+                    this.router.navigate(["error/not-correct"],{skipLocationChange: true})
                 else this.catchError(error)
             })
     }
