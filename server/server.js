@@ -17,6 +17,7 @@ class Server {
         this.app.use(bodyParser.json())
         this.app.use(cookieParser())
         this.app.use("/api",router)
+        this.app.use(express.static(path.join(__dirname,"./public")))
         this.app.use(
             (request, response) => response.sendFile(path.join(__dirname, "./public/index.html")
         ))
